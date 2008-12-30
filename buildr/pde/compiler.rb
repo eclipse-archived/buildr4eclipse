@@ -1,9 +1,13 @@
+gem "jdtc"
+
 module Buildr
   
   module PDE
     
     class PDEc < Buildr::Compiler::Base
     
+      include Jdtc
+      
       OPTIONS = [:warnings, :debug, :deprecation, :source, :target, :lint, :other]
     
       specify :language=>:java, :sources => 'java', :source_ext => 'java',
@@ -41,9 +45,7 @@ module Buildr
         cmd_args += javac_args
         cmd_args += files_from_sources(sources)
         unless Buildr.application.options.dryrun
-          trace((['javac'] + cmd_args).join(' '))
-          Java.load
-          Java.com.sun.tools.javac.Main.compile(cmd_args.to_java(Java.java.lang.String)) == 0 or
+          jdtc(cmd_args) == 0 or
             fail 'Failed to compile, see errors above'
         end
       end
@@ -75,6 +77,7 @@ module Buildr
         args + Array(options[:other])
       end
 
+      alias :pdec_args :javac_args 
     end
   end
   
