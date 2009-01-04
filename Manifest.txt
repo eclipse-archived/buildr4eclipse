@@ -4,9 +4,7 @@ buildr/pde.rb
 buildr/pde/compiler.rb
 buildr/pde/lib.rb
 buildr/pde/tasks.rb
-spec/buildr4eclipse_spec.rb
 spec/compiler_spec.rb
 spec/spec.opts
-spec/spec_helper.rb
 spec/spec_helpers.rb
 
