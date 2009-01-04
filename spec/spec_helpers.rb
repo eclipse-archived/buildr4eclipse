@@ -1,17 +1,7 @@
-require 'rubygems'
-#require 'buildr' #File.dirname(__FILE__) + "/../../buildr/lib/buildr.rb"
+# Uncomment and point to the buildr source to run with Buildr's source
+require File.dirname(__FILE__) + "/../../buildr/spec/spec_helpers.rb"
 
-require 'buildr'
-require 'buildr/core'
-require 'buildr/packaging'
-require 'buildr/java'
-require 'buildr/scala'
-require 'buildr/ide'
-require 'rake'
-
+require 'ruby-debug'
+Debugger.start
 
 require 'buildr/pde'
-
-include Buildr
-
-trace true

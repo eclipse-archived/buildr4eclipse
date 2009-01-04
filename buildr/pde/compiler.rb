@@ -29,7 +29,6 @@ module Buildr
       end
 
       def compile(sources, target, dependencies) #:nodoc:
-        
         copy_non_src_files(sources, target)    
             
         check_options options, OPTIONS
@@ -43,8 +42,7 @@ module Buildr
         cmd_args += javac_args
         cmd_args += files_from_sources(sources)
         unless Buildr.application.options.dryrun
-          jdtc(cmd_args) == 0 or
-            fail 'Failed to compile, see errors above'
+          jdtc(cmd_args)
         end
       end
 
@@ -72,6 +70,7 @@ module Buildr
           when String then args << "-Xlint:#{options[:lint]}"
           when true   then args << '-Xlint'
         end
+        puts args
         args + Array(options[:other])
       end
 
@@ -94,4 +93,6 @@ module Buildr
   end
 end
 
-Buildr::Compiler << Buildr::Compiler::PDEc
+# we come before everything else, otherwise javac is used by default and we cannot override it.
+Buildr::Compiler.compilers.unshift Buildr::Compiler::PDEc
+# Buildr::Compiler << Buildr::Compiler::PDEc
