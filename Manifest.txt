@@ -8,4 +8,5 @@ lib/pde/tasks.rb
 spec/compiler_spec.rb
 spec/spec.opts
 spec/spec_helpers.rb
+doc
 
