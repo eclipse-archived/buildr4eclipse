@@ -1,11 +1,9 @@
-gem "jdtc"
-
 module Buildr
   
-  module PDE
+  module Compiler
     
-    class PDEc < Buildr::Compiler::Base
-    
+    class PDEc < Base
+      require "jdtc"
       include Jdtc
       
       OPTIONS = [:warnings, :debug, :deprecation, :source, :target, :lint, :other]
@@ -96,6 +94,4 @@ module Buildr
   end
 end
 
-
-# we come before everything else
-Buildr::Compiler.compilers.unshift Buildr::PDE::PDEc
+Buildr::Compiler << Buildr::Compiler::PDEc

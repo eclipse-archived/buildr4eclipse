@@ -1,17 +1,19 @@
 require File.join(File.dirname(__FILE__), 'spec_helpers')
 
+require "ruby-debug"
+Debugger.start
 
 describe 'pde compiler' do
 
   it 'should not override existing target directory' do
-    define 'foo' do
+    define 'foo1' do
       compile.into('classes')
       lambda { compile.using(:pdec) }.should_not change { compile.target }
     end
   end
 
   it 'should not change existing list of sources' do
-    define 'foo' do
+    define 'foo2' do
       compile.from('sources')
       lambda { compile.using(:pdec) }.should_not change { compile.sources }
     end
@@ -29,14 +31,16 @@ describe 'pde compiler' do
 #  end
 
   def define_test1_project
-    write 'src/main/java/com/example/Test1.java', 'package com.example; public class Test1 { System.out.println("Hello World"); }'
+    write 'src/main/java/com/example/Test1.java', 'package com.example; public class Test1 { public static void main(String[] args) {System.out.println("Hello World");} }'
     define 'test1', :version=>'1.0' do
       package(:jar)
+      compile.from('src/main/java').into('target/classes').using(:pdec)
     end
   end
   
   it 'should compile a simple .java file into a .class file' do
     define_test1_project
+    debugger
     task('test1:compile').invoke
     file('target/classes/com/example/Test1.class').should exist
   end
@@ -66,7 +70,7 @@ describe 'pdec compiler options' do
     compile_task.options.warnings.should be_false
   end
 
-  it 'should set wranings option to true when running with --verbose option' do
+  it 'should set warnings option to true when running with --verbose option' do
     verbose true
     compile_task.options.warnings.should be_true
   end
