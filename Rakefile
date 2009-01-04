@@ -1,12 +1,9 @@
 %w[rubygems rake rake/clean fileutils newgem rubigen].each { |f| require f }
-
-# It would have been best to put the version in the library files, but they require buildr, which in turn messes up the rake tasks available.
-
-_VERSION = '0.0.1'
+require 'lib/buildr4eclipse'
 
 # Generate all the Rake tasks
 # Run 'rake -T' to see list of generated tasks (from gem root directory)
-$hoe = Hoe.new('buildr4eclipse', _VERSION) do |p|
+$hoe = Hoe.new('buildr4eclipse', Buildr4Eclipse::VERSION) do |p|
   p.developer('Ketan Padegaonkar', 'buildr4eclipse@googlegroups.com')
   p.developer('Antoine Toulme', 'buildr4eclipse@googlegroups.com')
   p.changes              = p.paragraphs_of("History.txt", 0..1).join("\n\n")
