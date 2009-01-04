@@ -1,0 +1,76 @@
+h1. buildr4eclipse
+
+
+h2. What
+
+buildr4eclipse is a plugin for Buildr to help building Eclipse plugins.
+It integrates the JDT compiler to compile plugins properly.
+
+h2. Installing
+
+<pre syntax="ruby">sudo gem install buildr4eclipse</pre>
+
+h2. The basics
+
+You should use the plugin in your Buildr buildfile.
+
+h2. Demonstration of usage
+
+In your buildfile, do:
+
+<pre syntax="ruby">
+require "buildr4eclipse"
+
+define 'foo' do
+  compile.using(:pdec)
+end
+</pre>
+
+h2. Forum
+
+"http://groups.google.com/group/buildr4eclipse":http://groups.google.com/group/buildr4eclipse
+
+h2. How to submit patches
+
+Read the "8 steps for fixing other people's code":http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/ and for section "8b: Submit patch to Google Groups":http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/#8b-google-groups, use the Google Group above.
+
+You can fetch the source from either:
+
+<% if rubyforge_project_id %>
+
+* rubyforge: "http://rubyforge.org/scm/?group_id=<%= rubyforge_project_id %>":http://rubyforge.org/scm/?group_id=<%= rubyforge_project_id %>
+
+<pre>git clone git://rubyforge.org/buildr4eclipse.git</pre>
+
+<% else %>
+
+* rubyforge: MISSING IN ACTION
+
+TODO - You can not created a RubyForge project, OR have not run <code>rubyforge config</code>
+yet to refresh your local rubyforge data with this projects' id information.
+
+When you do this, this message will magically disappear!
+
+Or you can hack website/index.txt and make it all go away!!
+
+<% end %>
+
+* github: "http://github.com/ketan/buildr4eclipse/tree/master":http://github.com/ketan/buildr4eclipse/tree/master
+
+<pre>git clone git://github.com/ketan/buildr4eclipse.git</pre>
+
+h3. Build and test instructions
+
+<pre>cd buildr4eclipse
+rake test
+rake install_gem</pre>
+
+
+h2. License
+
+This code is licensed under the EPL v1.0 license. 
+
+h2. Contact
+
+Comments are welcome. Send an email to "the Buildr4eclipse developers":mailto:buildr4eclipse@googlegroups.com via the "forum":http://groups.google.com/group/buildr4eclipse
+
