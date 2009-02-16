@@ -1,29 +1,41 @@
-%w[rubygems rake rake/clean fileutils newgem rubigen].each { |f| require f }
-require 'lib/buildr4eclipse'
+###############################################################################
+# Copyright (c) 2009 Buildr4Eclipse and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Eclipse Public License v1.0
+# which accompanies this distribution, and is available at
+# http://www.eclipse.org/legal/epl-v10.html
+#
+# Contributors:
+#     Buildr4Eclipse - initial API and implementation
+###############################################################################
 
-# Generate all the Rake tasks
-# Run 'rake -T' to see list of generated tasks (from gem root directory)
-$hoe = Hoe.new('buildr4eclipse', Buildr4Eclipse::VERSION) do |p|
-  p.developer('Ketan Padegaonkar', 'buildr4eclipse@googlegroups.com')
-  p.developer('Antoine Toulme', 'buildr4eclipse@googlegroups.com')
-  p.changes              = p.paragraphs_of("History.txt", 0..1).join("\n\n")
-  p.post_install_message = 'PostInstall.txt'
-  p.rubyforge_name       = p.name
-  p.extra_deps         = [
-     ['buildr','>= 1.3.3']
-   ]
-  p.extra_dev_deps = [
-    ['newgem', ">= #{::Newgem::VERSION}"]
-  ]
-  
-  p.clean_globs |= %w[**/.DS_Store tmp *.log]
-  path = (p.rubyforge_name == p.name) ? p.rubyforge_name : "\#{p.rubyforge_name}/\#{p.name}"
-  p.remote_rdoc_dir = File.join(path.gsub(/^#{p.rubyforge_name}\/?/,''), 'rdoc')
-  p.rsync_args = '-av --delete --ignore-errors'
+require 'rake/gempackagetask'
+require 'cucumber/rake/task'
+
+spec = Gem::Specification.new do |s| 
+  s.name = "buildr4eclipse"
+  s.rubyforge_project = "buildr4eclipse"
+  s.version = "0.0.1"
+  s.author = "Buildr4Eclipse"
+  s.email = "buildr4eclipse@googlegroups.com"
+  s.homepage = "http://buildr4eclipse.rubyforge.org"
+  s.platform = $platform || RUBY_PLATFORM[/java/] || 'ruby'
+  s.summary = "A Plugin Buildr for Eclipse that Doesn't Suck"
+  s.files = FileList["{bin, lib}/**/*"].to_a
+  s.require_path = "lib"
+  s.autorequire = "rake"
+  s.test_files = FileList["{test}/**/*test.rb"].to_a
+  s.has_rdoc = true
+  s.extra_rdoc_files = ["README", "ChangeLog", "LICENSE"]
+  s.add_dependency("buildr", ">= 1.3.3")
+end
+ 
+Rake::GemPackageTask.new(spec) do |pkg| 
+  pkg.need_tar = true 
 end
 
-require 'newgem/tasks' # load /tasks/*.rake
+Cucumber::Rake::Task.new
+
 Dir['tasks/**/*.rake'].each { |t| load t }
 
-# TODO - want other tests/tasks run by default? Add them to the list
-# task :default => [:spec, :features]
+task :default => [:test, :spec, :features]

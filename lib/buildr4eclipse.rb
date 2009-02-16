@@ -1,4 +1,4 @@
-# Just a file that contains the version of the gem
-module Buildr4Eclipse
-  VERSION = '0.0.1'.freeze
-end
+
+require File.dirname(__FILE__) + '/buildr4eclipse/tasks'
+require File.dirname(__FILE__) + '/buildr4eclipse/lib'
+require File.dirname(__FILE__) + '/buildr4eclipse/compiler'
