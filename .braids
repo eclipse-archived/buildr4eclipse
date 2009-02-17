@@ -1,0 +1,8 @@
+--- 
+buildr: 
+  squashed: true
+  url: git://github.com/assaf/buildr.git
+  type: git
+  revision: b7b565193954e5bb81936db69db335ac046657aa
+  branch: master
+  remote: braid/buildr
