@@ -11,10 +11,8 @@
 
 # require 'spec/expectations'
 
-require 'buildr'
-require 'rake'
-
 include Buildr
+include Rake
 
 Then /the compiler should contain pde/ do
   Buildr::Compiler.has?(:pdec).should be_true
@@ -25,7 +23,7 @@ Given /a source file '(.*)' containing source '(.*)'/ do |file, contents|
   write file, contents
 end
 
-Then /^the compiler should be identified as pde/ do
-  p define('foo').compile.class
-  # define('foo').compile.compiler.should eql(:foo)
+Then /the compiler should be identified as pde/ do
+  # p define('foo').compile.class
+  define('foo').compile.compiler.should eql(:foo)
 end
