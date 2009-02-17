@@ -9,8 +9,7 @@
 #     Buildr4Eclipse - initial API and implementation
 ###############################################################################
 
-include Buildr
-include Rake
+require File.dirname(__FILE__) + "/../../buildr/spec/spec_helpers.rb"
 
 Then /the compiler should contain pde/ do
   Buildr::Compiler.has?(:pdec).should be_true
