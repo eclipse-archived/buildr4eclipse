@@ -9,15 +9,12 @@
 #     Buildr4Eclipse - initial API and implementation
 ###############################################################################
 
-# require 'spec/expectations'
-
 include Buildr
 include Rake
 
 Then /the compiler should contain pde/ do
   Buildr::Compiler.has?(:pdec).should be_true
 end
-
 
 Given /a source file '(.*)' containing source '(.*)'/ do |file, contents|
   write file, contents
