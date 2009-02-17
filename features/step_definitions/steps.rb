@@ -9,10 +9,12 @@
 #     Buildr4Eclipse - initial API and implementation
 ###############################################################################
 
-require File.dirname(__FILE__) + "/../../buildr/spec/spec_helpers.rb"
+include Buildr
+include Rake
+require File.dirname(__FILE__) + "/../spec_helpers.rb"
 
 Then /the compiler should contain pde/ do
-  Buildr::Compiler.has?(:pdec).should be_true
+  Compiler.has?(:pdec).should be_true
 end
 
 Given /a source file '(.*)' containing source '(.*)'/ do |file, contents|
