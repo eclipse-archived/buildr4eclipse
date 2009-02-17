@@ -9,19 +9,28 @@
 #     Buildr4Eclipse - initial API and implementation
 ###############################################################################
 
-include Buildr
-include Rake
-require File.dirname(__FILE__) + "/../spec_helpers.rb"
+# Point to the buildr source to run with Buildr's source. 
+
+require 'ruby-debug'
+Debugger.start
+
+$LOAD_PATH.unshift File.expand_path File.join(File.dirname(__FILE__), '../../lib')
+
+require File.dirname(__FILE__) + "/../../buildr/spec/spec_helpers.rb"
+
+
+# p $LOAD_PATH
+require 'buildr4eclipse'
 
 Then /the compiler should contain pde/ do
-  Compiler.has?(:pdec).should be_true
+  Buildr::Compiler.has?(:pdec).should be_true
 end
 
 Given /a source file '(.*)' containing source '(.*)'/ do |file, contents|
-  write file, contents
+  Buildr::write file, contents
 end
 
 Then /the compiler should be identified as pde/ do
   # p define('foo').compile.class
-  define('foo').compile.compiler.should eql(:foo)
+  Buildr::define('foo').compile.compiler.should eql(:foo)
 end
