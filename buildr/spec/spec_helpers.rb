@@ -44,14 +44,14 @@ unless defined?(SpecHelpers)
 
     include Checks::Matchers
 
-    [:info, :warn, :error, :puts].each do |severity|
-      ::Object.class_eval do
-        define_method severity do |message|
-          $messages ||= {}
-          ($messages[severity] ||= []) << message
-        end
-      end
-    end
+    # [:info, :warn, :error, :puts].each do |severity|
+    #   ::Object.class_eval do
+    #     define_method severity do |message|
+    #       $messages ||= {}
+    #       ($messages[severity] ||= []) << message
+    #     end
+    #   end
+    # end
     
     class << Buildr.application
       alias :deprecated_without_capture :deprecated
