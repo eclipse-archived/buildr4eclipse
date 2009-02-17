@@ -9,7 +9,12 @@
 #     Buildr4Eclipse - initial API and implementation
 ###############################################################################
 
-require 'buildr'
-require File.dirname(__FILE__) + '/buildr4eclipse/tasks'
-require File.dirname(__FILE__) + '/buildr4eclipse/lib'
-require File.dirname(__FILE__) + '/buildr4eclipse/compiler'
+
+begin
+  require 'cucumber/rake/task'
+  desc "Run the features under features"
+  Cucumber::Rake::Task.new
+rescue LoadError
+  puts "Cucumber required. Please run 'rake setup' first"
+end
+

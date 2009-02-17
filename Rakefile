@@ -10,31 +10,21 @@
 ###############################################################################
 
 require 'rake/gempackagetask'
-require 'cucumber/rake/task'
 
-spec = Gem::Specification.new do |s| 
-  s.name = "buildr4eclipse"
-  s.rubyforge_project = "buildr4eclipse"
-  s.version = "0.0.1"
-  s.author = "Buildr4Eclipse"
-  s.email = "buildr4eclipse@googlegroups.com"
-  s.homepage = "http://buildr4eclipse.rubyforge.org"
-  s.platform = $platform || RUBY_PLATFORM[/java/] || 'ruby'
-  s.summary = "A Plugin Buildr for Eclipse that Doesn't Suck"
-  s.files = FileList["{bin, lib}/**/*"].to_a
-  s.require_path = "lib"
-  s.autorequire = "rake"
-  s.test_files = FileList["{test}/**/*test.rb"].to_a
-  s.has_rdoc = true
-  s.extra_rdoc_files = ["README", "ChangeLog", "LICENSE"]
-  s.add_dependency("buildr", ">= 1.3.3")
+def spec(platform = RUBY_PLATFORM[/java/] || 'ruby')
+  @specs ||= ['ruby', 'java'].inject({}) { |hash, platform|
+    $platform = platform
+    hash.update(platform=>Gem::Specification.load('buildr4eclipse.gemspec'))
+  }
+  @specs[platform]
 end
  
 Rake::GemPackageTask.new(spec) do |pkg| 
   pkg.need_tar = true 
 end
 
-Cucumber::Rake::Task.new
+task('license').enhance FileList[spec.files].exclude('.class', '.png', '.jar', '.tif', '.textile', '.icns',
+   'README', 'LICENSE', 'ChangeLog')
 
 Dir['tasks/**/*.rake'].each { |t| load t }
 
