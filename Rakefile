@@ -10,7 +10,6 @@
 ###############################################################################
 
 require 'rake/gempackagetask'
-require 'cucumber/rake/task'
 
 spec = Gem::Specification.new do |s| 
   s.name = "buildr4eclipse"
@@ -27,16 +26,27 @@ spec = Gem::Specification.new do |s|
   s.test_files = FileList["{test}/**/*test.rb"].to_a
   s.has_rdoc = true
   s.extra_rdoc_files = ["README", "ChangeLog", "LICENSE"]
+  
+  # dependencies of buildr4eclipse
   s.add_dependency("buildr", ">= 1.3.3")
-  s.add_dependency("jdtc", ">= 1.1.0")
+  s.add_dependency("jdtc", ">= 0.0.1")
+  
+  # development time dependencies
+  s.add_development_dependency("cucumber")
+  
 end
  
-
 Rake::GemPackageTask.new(spec) do |pkg| 
   pkg.need_tar = true 
 end
 
-Cucumber::Rake::Task.new
+begin
+  require 'cucumber/rake/task'
+  Cucumber::Rake::Task.new
+rescue LoadError
+  puts "Cucumber required. Please run 'rake setup' first"
+end
+
 
 task('license').enhance FileList[spec.files].exclude('.class', '.png', '.jar', '.tif', '.textile', '.icns',
    'README', 'LICENSE', 'ChangeLog')
