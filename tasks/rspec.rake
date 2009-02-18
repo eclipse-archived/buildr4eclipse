@@ -29,4 +29,6 @@ desc "Run the specs under spec/models"
 Spec::Rake::SpecTask.new do |t|
   t.spec_opts = ['--options', "spec/spec.opts"]
   t.spec_files = FileList['spec/**/*_spec.rb']
+  t.spec_opts = %w{--format specdoc --format failing_examples:failed --format html:_reports/specs.html --loadby mtime --backtrace}    
+  t.spec_opts << '--colour' if $stdout.isatty
 end
