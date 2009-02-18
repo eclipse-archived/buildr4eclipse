@@ -14,5 +14,3 @@ require File.expand_path File.join(File.dirname(__FILE__), '../buildr/spec/spec_
 
 # add buildr4eclipse to load path
 $LOAD_PATH.unshift File.expand_path File.join(File.dirname(__FILE__), '../lib')
-
-require 'buildr4eclipse'

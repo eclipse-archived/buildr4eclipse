@@ -17,10 +17,11 @@ Debugger.start
 $LOAD_PATH.unshift File.expand_path File.join(File.dirname(__FILE__), '../../lib')
 
 require File.dirname(__FILE__) + "/../../buildr/spec/spec_helpers.rb"
-
-
-# p $LOAD_PATH
 require 'buildr4eclipse'
+
+World do |world|
+  world.extend(SpecHelpers)
+end
 
 Then /the compiler should contain pde/ do
   Buildr::Compiler.has?(:pdec).should be_true
@@ -31,6 +32,5 @@ Given /a source file '(.*)' containing source '(.*)'/ do |file, contents|
 end
 
 Then /the compiler should be identified as pde/ do
-  # p define('foo').compile.class
-  Buildr::define('foo').compile.compiler.should eql(:foo)
+  define('foo').compile.compiler.should eql(:pdec)
 end
