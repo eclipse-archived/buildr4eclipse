@@ -72,26 +72,6 @@ MANIFEST
   Buildr::write 'org.sthg/META-INF/MANIFEST.MF', manifest
 end
 
-Then /the compiler should be able to guess them by looking at the manifest/ do
-  pending()
-end
-          
-Given /a project identified as a feature, packaging plugins/ do
-  pending()
-end
-
-Then /Buildr4eclipse should bundle the plugins and generate the feature accordingly/ do
-  pending()
-end
-
-Given /a project identified as a site, packaging plugins or features/ do
-  pending()
-end
-
-Then /Buildr4eclipse should bundle the plugins and generate the site accordingly/ do
-  pending()
-end
-
 When /I define a custom layout for '(.*)' and '(.*)'/ do |src, test|
   @custom_layout[:source, :main, :java] = src
   @custom_layout[:source, :test, :java] = test
