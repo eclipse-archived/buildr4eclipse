@@ -13,14 +13,14 @@ require File.join(File.dirname(__FILE__), 'spec_helpers')
 
 describe 'pde compiler' do
   
-  it 'should be in the compilers list' do
-    Buildr::Compiler.has?(:pdec).should be_true
-  end
+  # it 'should be in the compilers list' do
+  #   Buildr::Compiler.has?(:pdec).should be_true
+  # end
 
-  it 'should identify itself from source directories' do
-    write 'src/main/java/com/example/Test.java', 'package com.example; class Test {}' 
-    define('foo').compile.compiler.should eql(:pdec)
-  end
+  # it 'should identify itself from source directories' do
+  #   write 'src/main/java/com/example/Test.java', 'package com.example; class Test {}' 
+  #   define('foo').compile.compiler.should eql(:pdec)
+  # end
 
   it 'should identify from source directories using custom layout' do
     write 'src/com/example/Code.java', 'package com.example; class Code {}' 

@@ -20,6 +20,7 @@ require File.join(File.dirname(__FILE__), "/../../buildr/spec/spec_helpers.rb")
 require 'buildr4eclipse'
 
 World do |world|
+  world.extend(Buildr)
   world.extend(SpecHelpers)
   world.extend(Sandbox)
 end
@@ -37,7 +38,7 @@ Then /the compiler should contain pde/ do
 end
 
 Given /a source file '(.*)' containing source '(.*)'/ do |file, contents|
-  Buildr::write file, contents
+  write file, contents
 end
 
 Then /the compiler should be identified as pde/ do
@@ -81,4 +82,10 @@ end
 
 Then /Buildr4eclipse should bundle the plugins and generate the site accordingly/ do
   pending()
+end
+
+When /I define a custom layout for '(.*)' and '(.*)'/ do |src, test|
+  @custom_layout = Layout.new
+  @custom_layout[:source, :main, :java] = src
+  @custom_layout[:source, :test, :java] = test
 end
