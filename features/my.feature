@@ -24,9 +24,9 @@ Feature: The PDE compiler
   	When I define a custom layout for 'src' and 'testing'
 	  Then the compiler should be identified as pde
 
-  Scenario: Buildr4eclipse should let projects auto-resolve dependencies.
+  Scenario: Buildr4eclipse should let projects auto-resolve dependencies
     Given a plugin with some dependencies
-    Then the compiler should be able to guess them by looking at the manifest.
+    Then the compiler should be able to guess them by looking at the manifest
 	          
   Scenario: Buildr4eclipse should have the ability to generate a feature
     Given a project identified as a feature, packaging plugins

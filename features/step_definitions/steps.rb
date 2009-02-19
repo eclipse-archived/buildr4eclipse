@@ -64,7 +64,7 @@ MANIFEST
   Buildr::write 'org.sthg/META-INF/MANIFEST.MF', manifest
 end
 
-Then /the compiler should be able to guess them by looking at the manifest./ do
+Then /the compiler should be able to guess them by looking at the manifest/ do
   pending()
 end
           
