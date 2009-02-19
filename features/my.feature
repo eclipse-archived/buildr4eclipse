@@ -17,3 +17,15 @@ Feature: The PDE compiler
   Scenario: The compiler should identify pde compiler from source directory structure
 	Given a source file 'src/main/java/com/example/Test.java' containing source 'package com.example; class Test {}'
 	Then the compiler should be identified as pde
+	
+  Scenario: Buildr4eclipse should let projects auto-resolve dependencies.
+	Given a plugin with some dependencies
+	Then the compiler should be able to guess them by looking at the manifest.
+	          
+  Scenario: Buildr4eclipse should have the ability to generate a feature
+    Given a project identified as a feature, packaging plugins
+	Then Buildr4eclipse should bundle the plugins and generate the feature accordingly
+
+  Scenario: Buildr4eclipse should have the ability to generate a p2 update site
+    Given a project identified as a site, packaging plugins or features
+    Then Buildr4eclipse should bundle the plugins and generate the site accordingly

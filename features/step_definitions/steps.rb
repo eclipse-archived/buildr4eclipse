@@ -14,7 +14,7 @@
 require 'ruby-debug'
 Debugger.start
 
-$LOAD_PATH.unshift File.expand_path File.join(File.dirname(__FILE__), '../../lib')
+$LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), '../../lib'))
 
 require File.dirname(__FILE__) + "/../../buildr/spec/spec_helpers.rb"
 require 'buildr4eclipse'
@@ -33,4 +33,28 @@ end
 
 Then /the compiler should be identified as pde/ do
   define('foo').compile.compiler.should eql(:pdec)
+end
+
+Given /a plugin with some dependencies/ do
+  pending()
+end
+
+Then /the compiler should be able to guess them by looking at the manifest./ do
+  pending()
+end
+          
+Given /a project identified as a feature, packaging plugins/ do
+  pending()
+end
+
+Then /Buildr4eclipse should bundle the plugins and generate the feature accordingly/ do
+  pending()
+end
+
+Given /a project identified as a site, packaging plugins or features/ do
+  pending()
+end
+
+Then /Buildr4eclipse should bundle the plugins and generate the site accordingly/ do
+  pending()
 end
