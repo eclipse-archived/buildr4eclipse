@@ -16,15 +16,24 @@ Debugger.start
 
 $LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), '../../lib'))
 
-require File.dirname(__FILE__) + "/../../buildr/spec/spec_helpers.rb"
+require File.join(File.dirname(__FILE__), "/../../buildr/spec/spec_helpers.rb")
 require 'buildr4eclipse'
 
 World do |world|
   world.extend(SpecHelpers)
+  world.extend(Sandbox)
+end
+
+Before do
+  sandbox
+end
+
+After do
+  reset
 end
 
 Then /the compiler should contain pde/ do
-  Buildr::Compiler.has?(:pdec).should be_true
+  Compiler.has?(:pdec).should be_true
 end
 
 Given /a source file '(.*)' containing source '(.*)'/ do |file, contents|
@@ -36,7 +45,22 @@ Then /the compiler should be identified as pde/ do
 end
 
 Given /a plugin with some dependencies/ do
-  pending()
+  manifest = <<-MANIFEST
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Something.
+Bundle-SymbolicName: org.sthg; singleton:=true
+Bundle-Version: 6.0.0.000
+Bundle-Activator: org.shtg.Activator
+Bundle-Vendor: %provider.name
+Bundle-Localization: plugin
+Export-Package: org.sthg
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.core.resources,
+ org.eclipse.core.runtime,
+ org.eclipse.ui
+MANIFEST
+  Buildr::write 'org.sthg/META-INF/MANIFEST.MF', manifest
 end
 
 Then /the compiler should be able to guess them by looking at the manifest./ do
