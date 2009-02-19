@@ -29,7 +29,10 @@ MANIFEST
 end
 
 Then /the compiler should be able to guess them by looking at the manifest/ do
-  pending()
+  define 'org.sthg', :base_dir => 'org.sthg' do 
+    bundles = autoresolve
+    (bundles.include? "#{Buildr4Eclipse::PluginProject::ECLIPSE_GROUP_ID}:org.eclipse.core.resources:").should be_true
+  end
 end
           
 Given /a project identified as a feature, packaging plugins/ do
