@@ -22,17 +22,17 @@ describe 'pde compiler' do
   #   define('foo').compile.compiler.should eql(:pdec)
   # end
 
-  it 'should identify from source directories using custom layout' do
-    write 'src/com/example/Code.java', 'package com.example; class Code {}' 
-    write 'testing/com/example/Test.java', 'package com.example; class Test {}' 
-    custom = Layout.new
-    custom[:source, :main, :java] = 'src'
-    custom[:source, :test, :java] = 'testing'
-    define 'foo', :layout=>custom do
-      compile.compiler.should eql(:pdec)
-      test.compile.compiler.should eql(:pdec)
-    end
-  end
+  # it 'should identify from source directories using custom layout' do
+  #   write 'src/com/example/Code.java', 'package com.example; class Code {}' 
+  #   write 'testing/com/example/Test.java', 'package com.example; class Test {}' 
+  #   custom = Layout.new
+  #   custom[:source, :main, :java] = 'src'
+  #   custom[:source, :test, :java] = 'testing'
+  #   define 'foo', :layout=>custom do
+  #     compile.compiler.should eql(:pdec)
+  #     test.compile.compiler.should eql(:pdec)
+  #   end
+  # end
 
   it 'should identify from compile source directories' do
     write 'src/com/example/Code.java', 'package com.example; class Code {}' 

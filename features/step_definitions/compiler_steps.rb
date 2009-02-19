@@ -27,6 +27,7 @@ end
 
 Before do
   sandbox
+  @custom_layout = Layout.new
 end
 
 After do
@@ -43,6 +44,13 @@ end
 
 Then /the compiler should be identified as pde/ do
   define('foo').compile.compiler.should eql(:pdec)
+end
+
+Then /the compiler with custom layout should be identified as pde/ do
+  define 'foo', :layout=>@custom_layout do
+    compile.compiler.should eql(:pdec)
+    test.compile.compiler.should eql(:pdec)
+  end
 end
 
 Given /a plugin with some dependencies/ do
@@ -85,7 +93,6 @@ Then /Buildr4eclipse should bundle the plugins and generate the site accordingly
 end
 
 When /I define a custom layout for '(.*)' and '(.*)'/ do |src, test|
-  @custom_layout = Layout.new
   @custom_layout[:source, :main, :java] = src
   @custom_layout[:source, :test, :java] = test
 end
