@@ -30,8 +30,9 @@ end
 
 Then /the compiler should be able to guess them by looking at the manifest/ do
   define 'org.sthg', :base_dir => 'org.sthg' do 
+    @groupId = lambda {|artifactId| return "myEclipseGroup"}
     bundles = autoresolve
-    (bundles.include? "#{Buildr4Eclipse::PluginProject::ECLIPSE_GROUP_ID}:org.eclipse.core.resources:").should be_true
+    (bundles.include? "myEclipseGroup:org.eclipse.core.resources:").should be_true
   end
 end
           

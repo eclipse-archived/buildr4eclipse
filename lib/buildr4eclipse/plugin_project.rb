@@ -27,14 +27,23 @@ module Buildr4Eclipse #:nodoc:
     B_LAZY_START = "Bundle-ActivationPolicy"
     B_OLD_LAZY_START = "Eclipse-LazyStart"
     
+    attr_accessor :groupId
+    
     # returns an array of the dependencies of the plugin, read from the manifest.
     def autoresolve(add_optionals = true)
       f = File.join(base_dir, "META-INF", "MANIFEST.MF")
       return [] if (!File.exists? f)
       manifest = read(File.open(f).read)
       bundles = []
-      manifest.first[B_REQUIRE].each_pair {|key, value| bundles << "#{ECLIPSE_GROUP_ID}:#{key.strip}:#{value[B_DEP_VERSION]}" unless "system.bundle" == key || (value[B_RESOLUTION] == "optional" && !add_optionals)} unless manifest.first[B_REQUIRE].nil?
+      manifest.first[B_REQUIRE].each_pair {|key, value| bundles << "#{determine_groupId(key.strip)}:#{key.strip}:#{value[B_DEP_VERSION]}" unless "system.bundle" == key || (value[B_RESOLUTION] == "optional" && !add_optionals)} unless manifest.first[B_REQUIRE].nil?
       bundles
+    end
+    
+    private 
+    
+    # Artifacts that are resolved as dependencies from a manifest don't have a group id. We do the mapping in there.
+    def determine_groupId(artifactId)
+      return @groupId ? @groupId.call(artifactId) : ECLIPSE_GROUP_ID
     end
     
   end
