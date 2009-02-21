@@ -28,4 +28,4 @@ task('license').enhance FileList[spec.files].exclude('.class', '.png', '.jar', '
 
 Dir['tasks/**/*.rake'].each { |t| load t }
 
-task :default => [:test, :spec, :features]
+task :default => [:spec, :features]
