@@ -28,7 +28,7 @@ spec = Gem::Specification.new do |s|
   # dependencies of buildr4eclipse
   s.add_dependency("buildr", "= 1.3.4")
   s.add_dependency("jdtc", "= 0.0.1")
-  s.add_dependency("manifest", "= 0.0.1")
+  s.add_dependency("manifest", "= 0.0.2")
     
   # development time dependencies
   s.add_development_dependency("cucumber")
