@@ -1,8 +1,7 @@
 #!/bin/bash
 
-export PATH="$HOME/.gem/ruby/1.8/bin:/usr/java/jdk1.6.0_12/bin:/usr/local/bin:/bin:/usr/bin:$HOME/bin"
-set
-echo Using path: $PATH
+export PATH="/home/rails/.gem/ruby/1.8/bin:/usr/java/jdk1.6.0_12/bin:/usr/kerberos/bin:/usr/local/bin:/bin:/usr/bin:/home/rails/bin"
+
 rake setup
 rake
 
