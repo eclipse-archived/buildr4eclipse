@@ -9,9 +9,8 @@
 #     Buildr4Eclipse - initial API and implementation
 ###############################################################################
 
-require 'buildr'
-require File.dirname(__FILE__) + '/buildr4eclipse/tasks'
-require File.dirname(__FILE__) + '/buildr4eclipse/lib'
-require File.dirname(__FILE__) + '/buildr4eclipse/compiler'
-require File.dirname(__FILE__) + '/buildr4eclipse/plugin_project'
-require File.dirname(__FILE__) + '/buildr4eclipse/feature_project'
+Feature: The Eclipse feature project
+
+Scenario: Buildr4eclipse should give the ability for a project to be identified as a feature
+    Given a project that should act as a feature
+    Then Buildr4eclipse should add a set of attributes and methods to help package the feature

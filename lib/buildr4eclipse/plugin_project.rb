@@ -16,7 +16,7 @@ module Buildr4Eclipse #:nodoc:
   # A module to add to the Buildr::Project class
   # Projects with that module included can auto-resolve their dependencies
   module PluginProject
-    include Manifest
+    
     ECLIPSE_GROUP_ID = "__eclipse"
     
     B_NAME = "Bundle-SymbolicName"
@@ -33,7 +33,7 @@ module Buildr4Eclipse #:nodoc:
     def autoresolve(add_optionals = true)
       f = File.join(base_dir, "META-INF", "MANIFEST.MF")
       return [] if (!File.exists? f)
-      manifest = read(File.open(f).read)
+      manifest = Manifest.read(File.open(f).read)
       bundles = []
       manifest.first[B_REQUIRE].each_pair {|key, value| bundles << "#{determine_groupId(key.strip)}:#{key.strip}:#{value[B_DEP_VERSION]}" unless "system.bundle" == key || (value[B_RESOLUTION] == "optional" && !add_optionals)} unless manifest.first[B_REQUIRE].nil?
       bundles
