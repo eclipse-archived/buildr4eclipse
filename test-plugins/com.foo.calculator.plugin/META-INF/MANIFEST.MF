@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Foo Calculator
+Bundle-SymbolicName: com.foo.calculator.plugin
+Bundle-Version: 1.2.3.qualifier
+Bundle-Vendor: Buildr4Eclipse
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
