@@ -35,14 +35,14 @@ module Buildr4Eclipse #:nodoc:
       return [] if (!File.exists? f)
       manifest = Manifest.read(File.open(f).read)
       bundles = []
-      manifest.first[B_REQUIRE].each_pair {|key, value| bundles << "#{determine_groupId(key.strip)}:#{key.strip}:#{value[B_DEP_VERSION]}" unless "system.bundle" == key || (value[B_RESOLUTION] == "optional" && !add_optionals)} unless manifest.first[B_REQUIRE].nil?
+      manifest.first[B_REQUIRE].each_pair {|key, value| bundles << "#{determine_group_id(key.strip)}:#{key.strip}:#{value[B_DEP_VERSION]}" unless "system.bundle" == key || (value[B_RESOLUTION] == "optional" && !add_optionals)} unless manifest.first[B_REQUIRE].nil?
       bundles
     end
     
     private 
     
     # Artifacts that are resolved as dependencies from a manifest don't have a group id. We do the mapping in there.
-    def determine_groupId(artifactId)
+    def determine_group_id(artifactId)
       return @groupId ? @groupId.call(artifactId) : ECLIPSE_GROUP_ID
     end
     
