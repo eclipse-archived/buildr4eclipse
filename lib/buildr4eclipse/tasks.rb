@@ -12,7 +12,7 @@
 module Buildr
   module Packaging
     module Java
-      class PluginJarTask < JarTask
+      class EclipseJarTask < JarTask
         def initialize(*args)
           super
           compression_level = Zlib::BEST_COMPRESSION
@@ -21,7 +21,7 @@ module Buildr
 
       # Package the project as a plugin
       def package_as_plugin(file_name)
-        PluginJarTask.define_task(file_name).tap do |jar|
+        EclipseJarTask.define_task(file_name).tap do |jar|
           jar.with :manifest => create_manifest(plugin_id), :meta_inf=>meta_inf, :compression_level =>Zlib::BEST_COMPRESSION
           jar.with [compile.target, resources.target].compact
         end
@@ -29,7 +29,7 @@ module Buildr
       
       # Package the project as a feature
       def package_as_feature(file_name)
-        PluginJarTask.define_task(file_name).tap do |jar|
+        EclipseJarTask.define_task(file_name).tap do |jar|
           jar.with "eclipse/plugins", "eclipse/features", :meta_inf=>meta_inf, :compression_level =>Zlib::BEST_COMPRESSION
         end
       end
