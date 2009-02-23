@@ -20,6 +20,11 @@ module Buildr4Eclipse #:nodoc:
     def project_id
       name.split(':').last
     end
+    
+    def project_version
+      raise 'Subclasses must implement'
+    end
+
   end
 
 
@@ -49,6 +54,12 @@ module Buildr4Eclipse #:nodoc:
       bundles = []
       manifest.first[B_REQUIRE].each_pair {|key, value| bundles << "#{determine_group_id(key.strip)}:#{key.strip}:#{value[B_DEP_VERSION]}" unless "system.bundle" == key || (value[B_RESOLUTION] == "optional" && !add_optionals)} unless manifest.first[B_REQUIRE].nil?
       bundles
+    end
+    
+    def plugin_manifest
+      manifest = Buildr::Packaging::Java::Manifest.parse(File.new("#{project_id}/META-INF/MANIFEST.MF").read)
+      manifest.main["Bundle-Version"].gsub! /qualifier/, VERSION_NUMBER
+      manifest
     end
     
     private 
