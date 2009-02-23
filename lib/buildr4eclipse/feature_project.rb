@@ -14,7 +14,9 @@ module Buildr4Eclipse #:nodoc:
   # A module to add to the Buildr::Project class
   # Projects with that module included can auto-resolve their dependencies
   module FeatureProject
-    
+
+    include EclipseProject
+
     attr_accessor :label, :provider_name, :changes_url, :description, :copyright, :license_url, :license
     
     attr_reader :update_urls, :discovery_urls

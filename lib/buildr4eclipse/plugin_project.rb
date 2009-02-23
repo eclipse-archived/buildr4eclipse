@@ -13,10 +13,22 @@ require "manifest"
 
 module Buildr4Eclipse #:nodoc:
   
+
+  # A module that to add to the Buildr::Project class
+  # Projects with that module include can identify themselves as eclipse projects
+  module EclipseProject
+    def project_id
+      name.split(':').last
+    end
+  end
+
+
   # A module to add to the Buildr::Project class
   # Projects with that module included can auto-resolve their dependencies
   module PluginProject
     
+    include EclipseProject
+
     ECLIPSE_GROUP_ID = "__eclipse"
     
     B_NAME = "Bundle-SymbolicName"
@@ -47,19 +59,17 @@ module Buildr4Eclipse #:nodoc:
     end
     
   end
-  
-  # A module that to add to the Buildr::Project class
-  # Projects with that module include can identify themselves as eclipse projects
-  module EclipseProject
-    
-    def plugin_id
-      name.split(':').last
-    end
-    
+
+  module PluginProjectHook
+      include Buildr::Extension
+
+      def act_as_eclipse_plugin
+        extend Buildr4Eclipse::PluginProject
+      end
   end
+
 end
 
 class Buildr::Project
-  include Buildr4Eclipse::PluginProject
-  include Buildr4Eclipse::EclipseProject
+  include Buildr4Eclipse::PluginProjectHook
 end
