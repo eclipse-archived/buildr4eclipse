@@ -55,7 +55,6 @@ define "swtbot-2" do
 
     desc 'the finder project'
     define 'org.eclipse.swtbot.swt.finder', :layout=>create_layout('org.eclipse.swtbot.swt.finder') do
-        plugin_id = project.name.split(':').last
 
         compile.with([COMMON_JARS, DEPS].flatten).using(:warnings=>false, :debug=>true)
 
@@ -82,7 +81,6 @@ define "swtbot-2" do
     
     # desc 'the generator project'
     # define 'org.eclipse.swtbot.generator', :layout=>create_layout('org.eclipse.swtbot.generator') do
-    #     plugin_id = project.name.split(':').last
     # 
     #     compile.with([COMMON_JARS, DEPS, project("org.eclipse.swtbot.swt.finder")].flatten).using(:warnings=>false, :debug=>true)
     # 

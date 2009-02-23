@@ -47,8 +47,19 @@ module Buildr4Eclipse #:nodoc:
     end
     
   end
+  
+  # A module that to add to the Buildr::Project class
+  # Projects with that module include can identify themselves as eclipse projects
+  module EclipseProject
+    
+    def plugin_id
+      name.split(':').last
+    end
+    
+  end
 end
 
 class Buildr::Project
   include Buildr4Eclipse::PluginProject
+  include Buildr4Eclipse::EclipseProject
 end

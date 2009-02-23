@@ -22,7 +22,6 @@ module Buildr
       # Package the project as a plugin
       def package_as_plugin(file_name)
         PluginJarTask.define_task(file_name).tap do |jar|
-		      plugin_id = project.name.split(':').last
           jar.with :manifest => create_manifest(plugin_id), :meta_inf=>meta_inf, :compression_level =>Zlib::BEST_COMPRESSION
           jar.with [compile.target, resources.target].compact
         end
