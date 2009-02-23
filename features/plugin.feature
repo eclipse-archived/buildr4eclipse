@@ -14,3 +14,8 @@ Feature: The Eclipse plugin project
 Scenario: Buildr4eclipse should give the ability for a project to be identified as a plugin
     Given a project that should act as a plugin
     Then Buildr4eclipse should add a set of attributes and methods to help package the plugin
+
+
+Scenario: should be able to package a plugin as a jar
+	Given the plugin with id 'com.foo.calculator.plugin'
+	Then the plugin should be packaged as a plugin jar

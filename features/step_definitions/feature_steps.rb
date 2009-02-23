@@ -24,6 +24,6 @@ Then /Buildr4eclipse should add a set of attributes and methods to help package 
   define('com.foo.bar') do |p|
     act_as_eclipse_feature
     lambda {p.feature_xml("myFeature", "1.0")}.should_not raise_error
-    p lambda {p.project_id}.should_not raise_error
+    lambda {p.project_id}.should_not raise_error
   end
 end

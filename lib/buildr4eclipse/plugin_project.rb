@@ -17,12 +17,22 @@ module Buildr4Eclipse #:nodoc:
   # A module that to add to the Buildr::Project class
   # Projects with that module include can identify themselves as eclipse projects
   module EclipseProject
+
     def project_id
       name.split(':').last
     end
     
-    def project_version
+    def version
       raise 'Subclasses must implement'
+    end
+
+    def base_directory
+      @base_directory unless @base_directory.nil?
+      @base_directory = '.'
+    end
+
+    def base_directory=(dir)
+      @base_directory=dir
     end
 
   end
@@ -56,14 +66,20 @@ module Buildr4Eclipse #:nodoc:
       bundles
     end
     
-    def plugin_manifest
-      manifest = Buildr::Packaging::Java::Manifest.parse(File.new("#{project_id}/META-INF/MANIFEST.MF").read)
-      manifest.main["Bundle-Version"].gsub! /qualifier/, VERSION_NUMBER
-      manifest
+    def version
+      manifest.main["Bundle-Version"]
+    end
+
+    def manifest
+      manifest = Buildr::Packaging::Java::Manifest.parse(manifest_file.read)
     end
     
     private 
     
+    def manifest_file
+      File.new(File.expand_path(base_directory, "#{project_id}/META-INF/MANIFEST.MF"))
+    end
+
     # Artifacts that are resolved as dependencies from a manifest don't have a group id. We do the mapping in there.
     def determine_group_id(artifactId)
       return @groupId ? @groupId.call(artifactId) : ECLIPSE_GROUP_ID
