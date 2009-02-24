@@ -44,12 +44,13 @@ def plugin_version(plugin_id)
   manifest.main["Bundle-Version"].gsub /qualifier/, VERSION_NUMBER  
 end
 
-def create_layout(plugin_id)
-	my_layout = Layout.new
-	my_layout[:source, :main, :java] = "src"
-	my_layout[:source, :main, :resources] = "src"
-	
-	my_layout[:source, :test, :java] = "../#{plugin_id}.test/src"
-	my_layout[:source, :test, :resources] = "../#{plugin_id}.test/src"
-	return my_layout
-end
+# moved to plugin_project.rb
+# def create_layout(plugin_id)
+#   my_layout = Layout.new
+#   my_layout[:source, :main, :java] = "src"
+#   my_layout[:source, :main, :resources] = "src"
+#   
+#   my_layout[:source, :test, :java] = "../#{plugin_id}.test/src"
+#   my_layout[:source, :test, :resources] = "../#{plugin_id}.test/src"
+#   return my_layout
+# end

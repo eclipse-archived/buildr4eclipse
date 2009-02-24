@@ -74,6 +74,11 @@ module Buildr4Eclipse #:nodoc:
       manifest = Buildr::Packaging::Java::Manifest.parse(manifest_file.read)
     end
     
+    # overrides project's layout to provide a plugin layout
+    def layout
+      @layout ||= (parent ? parent.layout : Layout.plugin_default).clone
+    end
+    
     private 
     
     def manifest_file
@@ -95,6 +100,23 @@ module Buildr4Eclipse #:nodoc:
       end
   end
 
+end
+
+class Buildr::Layout
+  class << self
+    attr_accessor :plugin_default
+  end
+  
+  class PluginLayout < Layout
+    def initialize
+      super
+        self[:source, :main, :java] = "src"
+        self[:source, :main, :resources] = "src"
+        
+        self[:source, :test, :java] = "../#{plugin_id}.test/src"
+        self[:source, :test, :resources] = "../#{plugin_id}.test/src"
+    end
+  end
 end
 
 class Buildr::Project

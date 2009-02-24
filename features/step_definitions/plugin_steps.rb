@@ -36,7 +36,16 @@ Given /the plugin with id '(.*)'/ do |plugin_id|
   end
 end
 
+When /^the plugin is compiled using jdt compiler$/ do
+  pending
+  @plugin_project.compile
+end
+
 Then /the plugin should be packaged as a plugin jar/ do
-  pending()
+  pending
   p @plugin_project.package
+end
+
+Then /^the layout should be of type 'PluginLayout'$/ do
+  pending
 end
