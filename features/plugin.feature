@@ -17,7 +17,7 @@ Scenario: Buildr4eclipse should give the ability for a project to be identified 
 
 Scenario: should be able to set the correct layout for a plugin project
 	Given a project that should act as a plugin
-	Then the layout should be of type 'PluginLayout'
+	Then the layout should be of type 'Buildr::Layout::PluginLayout'
 
 Scenario: should be able to package a plugin as a jar
 	Given the plugin with id 'com.foo.calculator.plugin'

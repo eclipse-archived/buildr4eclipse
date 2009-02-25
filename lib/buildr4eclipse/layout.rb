@@ -9,10 +9,20 @@
 #     Buildr4Eclipse - initial API and implementation
 ###############################################################################
 
-require 'buildr'
-require File.dirname(__FILE__) + '/buildr4eclipse/layout'
-require File.dirname(__FILE__) + '/buildr4eclipse/package'
-require File.dirname(__FILE__) + '/buildr4eclipse/lib'
-require File.dirname(__FILE__) + '/buildr4eclipse/compiler'
-require File.dirname(__FILE__) + '/buildr4eclipse/plugin_project'
-require File.dirname(__FILE__) + '/buildr4eclipse/feature_project'
+class Buildr::Layout
+  class << self
+    attr_accessor :plugin_default
+  end
+  
+  class PluginLayout < Layout
+    def initialize(*plugin_id)
+      super()
+        self[:source, :main, :java] = "src"
+        self[:source, :main, :resources] = "src"
+        
+        self[:source, :test, :java] = "../#{plugin_id}.test/src"
+        self[:source, :test, :resources] = "../#{plugin_id}.test/src"
+    end
+  end
+end
+

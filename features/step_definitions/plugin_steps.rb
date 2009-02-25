@@ -46,6 +46,6 @@ Then /the plugin should be packaged as a plugin jar/ do
   p @plugin_project.package
 end
 
-Then /^the layout should be of type 'PluginLayout'$/ do
-  pending
+Then /^the layout should be of type '(.*)'$/ do |layout_type|
+  @plugin_project.layout.class.to_s.eql?(layout_type).should be_true
 end
