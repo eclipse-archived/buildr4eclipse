@@ -32,13 +32,11 @@ Given /the plugin with id '(.*)'/ do |plugin_id|
   cp_r "../../test-plugins/#{plugin_id}", Dir.pwd
   @plugin_project = define(plugin_id) do |project|
     act_as_eclipse_plugin
-    project.base_directory = Dir.pwd
   end
 end
 
 When /^the plugin is compiled using jdt compiler$/ do
-  pending
-  @plugin_project.compile
+  @plugin_project.compile.compiler.should eql(:pdec)
 end
 
 Then /the plugin should be packaged as a plugin jar/ do
