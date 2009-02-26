@@ -26,15 +26,6 @@ module Buildr4Eclipse #:nodoc:
       raise 'Subclasses must implement'
     end
 
-    def base_directory
-      @base_directory unless @base_directory.nil?
-      @base_directory = '.'
-    end
-
-    def base_directory=(dir)
-      @base_directory=dir
-    end
-
   end
 
 
@@ -82,7 +73,7 @@ module Buildr4Eclipse #:nodoc:
     private 
     
     def manifest_file
-      File.new(File.expand_path(base_directory, "#{project_id}/META-INF/MANIFEST.MF"))
+      File.new(File.expand_path(base_dir, "#{project_id}/META-INF/MANIFEST.MF"))
     end
 
     # Artifacts that are resolved as dependencies from a manifest don't have a group id. We do the mapping in there.

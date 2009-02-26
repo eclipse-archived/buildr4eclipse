@@ -36,7 +36,7 @@ Given /the plugin with id '(.*)'/ do |plugin_id|
 end
 
 When /^the plugin is compiled using jdt compiler$/ do
-  @plugin_project.compile.compiler.should eql(:pdec)
+  @plugin_project.compile.invoke
 end
 
 Then /the plugin should be packaged as a plugin jar/ do
