@@ -17,8 +17,8 @@ class Buildr::Layout
   class PluginLayout < Layout
     def initialize(*plugin_id)
       super()
-        self[:source, :main, :java] = "src"
-        self[:source, :main, :resources] = "src"
+        self[:source, :main, :java] = "#{plugin_id}/src"
+        self[:source, :main, :resources] = "#{plugin_id}/src"
         
         self[:source, :test, :java] = "../#{plugin_id}.test/src"
         self[:source, :test, :resources] = "../#{plugin_id}.test/src"
