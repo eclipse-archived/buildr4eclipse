@@ -41,7 +41,6 @@ module Buildr
 
       def compile(sources, target, dependencies) #:nodoc:
         copy_non_src_files(sources, target)    
-            
         check_options options, OPTIONS
         cmd_args = []
         # tools.jar contains the Java compiler.
@@ -60,10 +59,15 @@ module Buildr
     private
 
       def copy_non_src_files(sources, target)
+        mkdir_p target
         sources.each do |src_dir|
-          FileList["#{sources}/**/*"].exclude("*.java").each do |source|
+          FileList.new("#{sources}/**/*").exclude("*.java").each do |source|
             relative = source.sub(src_dir, "").sub("/", "")
-            cp_r source,File.join(target, relative), :verbose=>false
+            if File.file? source
+              dest = File.join(target, relative)
+              mkdir_p (File.dirname dest), :verbose=>false
+              cp_r source, dest, :verbose=>false if File.file? source
+            end
           end
         end
       end

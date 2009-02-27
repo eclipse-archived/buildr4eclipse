@@ -22,7 +22,7 @@ module Buildr
       # Package the project as a plugin
       def package_as_plugin(file_name)
         EclipseJarTask.define_task(file_name).tap do |jar|
-          jar.with :manifest => create_manifest(plugin_id), :meta_inf=>meta_inf, :compression_level =>Zlib::BEST_COMPRESSION
+          jar.with :manifest => manifest, :meta_inf=>meta_inf, :compression_level =>Zlib::BEST_COMPRESSION
           jar.with [compile.target, resources.target].compact
         end
       end

@@ -40,8 +40,8 @@ When /^the plugin is compiled using jdt compiler$/ do
 end
 
 Then /the plugin should be packaged as a plugin jar/ do
-  pending
-  p @plugin_project.package
+  @plugin_project.package.invoke
+  File.exists?(FileList.new("#{@plugin_project.target}/#{@plugin_project.project_id}*.jar").first).should be_true
 end
 
 Then /^the layout should be of type '(.*)'$/ do |layout_type|

@@ -19,9 +19,21 @@ class Buildr::Layout
       super()
         self[:source, :main, :java] = "#{plugin_id}/src"
         self[:source, :main, :resources] = "#{plugin_id}/src"
-        
+
         self[:source, :test, :java] = "../#{plugin_id}.test/src"
         self[:source, :test, :resources] = "../#{plugin_id}.test/src"
+
+        self[:target] = "#{plugin_id}/@dot"
+        self[:target, :main] = "#{plugin_id}/@dot"
+
+        self[:target, :main, :classes] = "#{plugin_id}/@dot"
+        self[:target, :main, :resources] = "#{plugin_id}/@dot"
+
+        self[:target, :test] = "../#{plugin_id}.test/@dot"
+
+        self[:target, :test, :classes] = "../#{plugin_id}.test/@dot"
+        self[:target, :test, :resources] = "../#{plugin_id}.test/@dot"
+
     end
   end
 end

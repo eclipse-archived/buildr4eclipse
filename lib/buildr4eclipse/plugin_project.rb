@@ -73,7 +73,7 @@ module Buildr4Eclipse #:nodoc:
     private 
     
     def manifest_file
-      File.new(File.expand_path(base_dir, "#{project_id}/META-INF/MANIFEST.MF"))
+      File.new(File.expand_path("#{project_id}/META-INF/MANIFEST.MF"))
     end
 
     # Artifacts that are resolved as dependencies from a manifest don't have a group id. We do the mapping in there.
