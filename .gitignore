@@ -2,3 +2,4 @@ pkg/
 src/
 _reports/
 failed
+.DS_Store

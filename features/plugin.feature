@@ -23,3 +23,7 @@ Scenario: should be able to package a plugin as a jar
 	Given the plugin with id 'com.foo.calculator.plugin'
 	When the plugin is compiled using jdt compiler
 	Then the plugin should be packaged as a plugin jar
+
+Scenario: Buildr4eclipse should let projects auto-resolve dependencies
+	Given a plugin 'org.foo.has.dependencies' with some dependencies 'com.foo.plugin, com.bar.plugin'
+	Then the compiler should be able to guess dependencies 'com.foo.plugin, com.bar.plugin' by looking at the manifest

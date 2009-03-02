@@ -15,7 +15,18 @@ Given /a project that should act as a plugin/ do
   end
   @pNotPlugin = define('bar')
 end
-  
+
+Given /a plugin '(.*)' with some dependencies '(.*)'/ do |plugin_id, dependencies|
+  manifest = <<-MANIFEST
+Bundle-SymbolicName: #{plugin_id}; singleton:=true
+Require-Bundle: #{dependencies}
+MANIFEST
+  Buildr::write "#{plugin_id}/META-INF/MANIFEST.MF", manifest
+  @plugin_project = define(plugin_id) do |project|
+    act_as_eclipse_plugin
+  end
+end
+
 Then /Buildr4eclipse should add a set of attributes and methods to help package the plugin/ do
   (@plugin_project.public_methods.include? "autoresolve").should be_true
   (@plugin_project.public_methods.include? "project_id").should be_true
@@ -46,4 +57,14 @@ end
 
 Then /^the layout should be of type '(.*)'$/ do |layout_type|
   @plugin_project.layout.class.to_s.eql?(layout_type).should be_true
+end
+
+
+Then /the compiler should be able to guess dependencies '(.*)' by looking at the manifest/ do |dependencies|
+  @plugin_project.groupId = lambda {|artifactId| return "myEclipseGroup"}
+  bundles = @plugin_project.autoresolve
+
+  dependencies.split(/\s*,\s*/).each do |dependency|
+    (bundles.include? "myEclipseGroup:#{dependency}:").should be_true
+  end
 end

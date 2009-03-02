@@ -11,9 +11,6 @@
 
 
 Feature: TODO
-  Scenario: Buildr4eclipse should let projects auto-resolve dependencies
-    Given a plugin with some dependencies
-    Then the compiler should be able to guess them by looking at the manifest
             
   Scenario: Buildr4eclipse should have the ability to generate a feature
     Given a project identified as a feature, packaging plugins

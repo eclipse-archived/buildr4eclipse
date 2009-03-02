@@ -49,9 +49,8 @@ module Buildr4Eclipse #:nodoc:
     
     # returns an array of the dependencies of the plugin, read from the manifest.
     def autoresolve(add_optionals = true)
-      f = File.join(base_dir, "META-INF", "MANIFEST.MF")
-      return [] if (!File.exists? f)
-      manifest = Manifest.read(File.open(f).read)
+      return [] unless File.exists?(manifest_file_path)
+      manifest = Manifest.read(manifest_file_contents)
       bundles = []
       manifest.first[B_REQUIRE].each_pair {|key, value| bundles << "#{determine_group_id(key.strip)}:#{key.strip}:#{value[B_DEP_VERSION]}" unless "system.bundle" == key || (value[B_RESOLUTION] == "optional" && !add_optionals)} unless manifest.first[B_REQUIRE].nil?
       bundles
@@ -62,7 +61,7 @@ module Buildr4Eclipse #:nodoc:
     end
 
     def manifest
-      manifest = Buildr::Packaging::Java::Manifest.parse(manifest_file.read)
+      manifest = Buildr::Packaging::Java::Manifest.parse(File.read(manifest_file_path))
     end
     
     # overrides project's layout to provide a plugin layout
@@ -72,8 +71,16 @@ module Buildr4Eclipse #:nodoc:
     
     private 
     
-    def manifest_file
-      File.new(File.expand_path("#{project_id}/META-INF/MANIFEST.MF"))
+    def manifest_file_path
+      File.expand_path("#{project_id}/META-INF/MANIFEST.MF")
+    end
+
+    def manifest_file_contents
+      if File.exists?(manifest_file_path) then
+        File.read(manifest_file_path)
+      else
+        ""
+      end
     end
 
     # Artifacts that are resolved as dependencies from a manifest don't have a group id. We do the mapping in there.
