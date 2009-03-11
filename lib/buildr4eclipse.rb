@@ -10,9 +10,7 @@
 ###############################################################################
 
 require 'buildr'
-require File.dirname(__FILE__) + '/buildr4eclipse/layout'
-require File.dirname(__FILE__) + '/buildr4eclipse/package'
-require File.dirname(__FILE__) + '/buildr4eclipse/lib'
-require File.dirname(__FILE__) + '/buildr4eclipse/compiler'
-require File.dirname(__FILE__) + '/buildr4eclipse/plugin_project'
-require File.dirname(__FILE__) + '/buildr4eclipse/feature_project'
+Dir.glob(File.join(File.dirname(__FILE__), "buildr4eclipse", "*.rb")).each do |f|
+  require f
+end
+

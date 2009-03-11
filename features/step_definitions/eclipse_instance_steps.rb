@@ -12,11 +12,13 @@
 require File.join(File.dirname(__FILE__), "step_helpers.rb")
 
 Given /a Buildfile that mentions a special Eclipse repository/ do
-  pending
+  Buildr::write(Dir.pwd + "/eclipse/plugins/org.something_1.0.0.M456.jar")
+  repositories.eclipse_instance = Dir.pwd + "/eclipse"
 end
    
 Then /it should be associated with the other repositories for artifact resolution/ do
-  pending
+  p = repositories.locate("__eclipse:org.something:jar:1.0.0.M456")
+  p.match(Dir.pwd + "/eclipse").should_not be_nil
 end
    
 Given /a Buildfile that is bound to an Eclipse instance repository/ do

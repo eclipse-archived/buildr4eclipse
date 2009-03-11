@@ -34,8 +34,6 @@ module Buildr4Eclipse #:nodoc:
   module PluginProject
     
     include EclipseProject
-
-    ECLIPSE_GROUP_ID = "__eclipse"
     
     B_NAME = "Bundle-SymbolicName"
     B_REQUIRE = "Require-Bundle"

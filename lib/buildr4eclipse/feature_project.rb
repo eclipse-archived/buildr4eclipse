@@ -8,6 +8,7 @@
 # Contributors:
 #     Buildr4Eclipse - initial API and implementation
 ###############################################################################
+require(File.dirname(__FILE__) + "/plugin_project.rb")
 
 module Buildr4Eclipse #:nodoc:
   
