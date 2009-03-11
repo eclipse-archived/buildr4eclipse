@@ -43,7 +43,6 @@ Given /the plugin with id '(.*)'/ do |plugin_id|
   cp_r "../../test-plugins/#{plugin_id}", Dir.pwd
   @plugin_project = define(plugin_id, :base_dir => File.join(Dir.pwd, plugin_id)) do |project|
     act_as_eclipse_plugin
-    p project.base_dir
   end
 end
 
