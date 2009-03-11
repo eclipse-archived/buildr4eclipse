@@ -32,7 +32,7 @@ end
 Then /Buildr4eclipse should add a set of attributes and methods to help package the plugin/ do
   (@plugin_project.public_methods.include? "autoresolve").should be_true
   (@plugin_project.public_methods.include? "project_id").should be_true
-  (@pNotFeature.public_methods.include? "autoresolve").should be_false
+  (@pNotPlugin.public_methods.include? "autoresolve").should be_false
   # Also check if you can call the method right after the act_as_eclipse_feature method call.
   define('com.foo.bar') do |p|
     act_as_eclipse_plugin
