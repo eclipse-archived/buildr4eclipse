@@ -27,3 +27,13 @@ Scenario: should be able to package a plugin as a jar
 Scenario: Buildr4eclipse should let projects auto-resolve dependencies
 	Given a plugin 'org.foo.has.dependencies' with some dependencies 'com.foo.plugin, com.bar.plugin'
 	Then the compiler should be able to guess dependencies 'com.foo.plugin, com.bar.plugin' by looking at the manifest
+
+Scenario: Buildr4eclipse should associate with an Eclipse instance
+    Given a plugin project
+    When an Eclipse instance is defined 
+    Then the project should be able to associate with it
+
+Scenario: Buildr4eclipse should find all the dependencies of a project transitively
+    Given a plugin with some dependencies
+    When the plugin is asked to compile by auto-resolving its dependencies
+    Then it should be able to find all its dependencies and match them to actual artifacts

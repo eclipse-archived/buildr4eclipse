@@ -8,13 +8,26 @@
 # Contributors:
 #     Buildr4Eclipse - initial API and implementation
 ###############################################################################
-          
 
-
-Given /a project identified as a site, packaging plugins or features/ do
-  pending()
+Given /a Buildfile that mentions a special Eclipse repository/ do
+  pending
+end
+   
+Then /it should be associated with the other repositories for artifact resolution/ do
+  pending
+end
+   
+Given /a Buildfile that is bound to an Eclipse instance repository/ do
+  pending
 end
 
-Then /Buildr4eclipse should bundle the plugins and generate the site accordingly/ do
-  pending()
+When /the user asks for it by calling "buildr eclipse:repos"/ do
+  pending
 end
+   
+Then /Buildr should give the ability to compute the data from this repository in a file named .repo_metadata at the root of the Eclipse instance/ do
+  pending
+end
+     
+
+     

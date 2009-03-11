@@ -11,10 +11,6 @@
 
 
 Feature: TODO
-            
-  Scenario: Buildr4eclipse should have the ability to generate a feature
-    Given a project identified as a feature, packaging plugins
-    Then Buildr4eclipse should bundle the plugins and generate the feature accordingly
 
   Scenario: Buildr4eclipse should have the ability to generate a p2 update site
     Given a project identified as a site, packaging plugins or features

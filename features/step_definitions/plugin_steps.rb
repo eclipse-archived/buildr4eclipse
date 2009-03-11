@@ -41,8 +41,9 @@ end
 
 Given /the plugin with id '(.*)'/ do |plugin_id|
   cp_r "../../test-plugins/#{plugin_id}", Dir.pwd
-  @plugin_project = define(plugin_id) do |project|
+  @plugin_project = define(plugin_id, :base_dir => File.join(Dir.pwd, plugin_id)) do |project|
     act_as_eclipse_plugin
+    p project.base_dir
   end
 end
 
@@ -52,7 +53,9 @@ end
 
 Then /the plugin should be packaged as a plugin jar/ do
   @plugin_project.package.invoke
-  File.exists?(FileList.new("#{@plugin_project.target}/#{@plugin_project.project_id}*.jar").first).should be_true
+  files = FileList.new("#{File.expand_path @plugin_project.target}/#{@plugin_project.project_id}*.jar")
+  files.should_not be_empty
+  File.exists?(files.first).should be_true
 end
 
 Then /^the layout should be of type '(.*)'$/ do |layout_type|
@@ -61,10 +64,30 @@ end
 
 
 Then /the compiler should be able to guess dependencies '(.*)' by looking at the manifest/ do |dependencies|
-  @plugin_project.groupId = lambda {|artifactId| return "myEclipseGroup"}
+  pending
+  @plugin_project.resolving_strategy = lambda {}
   bundles = @plugin_project.autoresolve
 
   dependencies.split(/\s*,\s*/).each do |dependency|
     (bundles.include? "myEclipseGroup:#{dependency}:").should be_true
   end
+end
+
+
+Given /^a plugin project$/ do
+end
+
+When /^an Eclipse instance is defined$/ do
+end
+
+Then /^the project should be able to associate with it$/ do
+end
+
+Given /^a plugin with some dependencies$/ do
+end
+
+When /^the plugin is asked to compile by auto\-resolving its dependencies$/ do
+end
+
+Then /^it should be able to find all its dependencies and match them to actual artifacts$/ do
 end

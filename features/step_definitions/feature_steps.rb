@@ -27,3 +27,11 @@ Then /Buildr4eclipse should add a set of attributes and methods to help package 
     lambda {p.project_id}.should_not raise_error
   end
 end
+
+Given /a project identified as a feature, packaging plugins/ do
+  pending
+end
+
+Then /Buildr4eclipse should bundle the plugins and generate the feature accordingly/ do
+  pending
+end

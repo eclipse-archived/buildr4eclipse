@@ -52,7 +52,10 @@ module Buildr4Eclipse #:nodoc:
       return [] unless File.exists?(manifest_file_path)
       manifest = Manifest.read(manifest_file_contents)
       bundles = []
-      manifest.first[B_REQUIRE].each_pair {|key, value| bundles << "#{determine_group_id(key.strip)}:#{key.strip}:#{value[B_DEP_VERSION]}" unless "system.bundle" == key || (value[B_RESOLUTION] == "optional" && !add_optionals)} unless manifest.first[B_REQUIRE].nil?
+      manifest.first[B_REQUIRE].each_pair {|key, value| 
+        bundle = determine_artifact_from_manifest(key, value[B_DEP_VERSION], value[B_RESOLUTION] == "optional")
+        bundles << bundle
+      } unless manifest.first[B_REQUIRE].nil?
       bundles
     end
     
@@ -72,7 +75,7 @@ module Buildr4Eclipse #:nodoc:
     private 
     
     def manifest_file_path
-      File.expand_path("#{project_id}/META-INF/MANIFEST.MF")
+      File.expand_path("#{base_dir}/META-INF/MANIFEST.MF")
     end
 
     def manifest_file_contents
@@ -83,8 +86,7 @@ module Buildr4Eclipse #:nodoc:
       end
     end
 
-    # Artifacts that are resolved as dependencies from a manifest don't have a group id. We do the mapping in there.
-    def determine_group_id(artifactId)
+    def determine_artifact_from_manifest(id, version, optional)
       return @groupId ? @groupId.call(artifactId) : ECLIPSE_GROUP_ID
     end
     
