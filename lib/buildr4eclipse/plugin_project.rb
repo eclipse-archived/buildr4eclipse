@@ -67,11 +67,6 @@ module Buildr4Eclipse #:nodoc:
       manifest = Buildr::Packaging::Java::Manifest.parse(File.read(manifest_file_path))
     end
     
-    # overrides project's layout to provide a plugin layout
-    def layout
-      @layout ||= (parent ? parent.layout : Layout.plugin_default).clone
-    end
-    
     private 
     
     def manifest_file_path
@@ -97,7 +92,7 @@ module Buildr4Eclipse #:nodoc:
 
       def act_as_eclipse_plugin
         extend Buildr4Eclipse::PluginProject
-        @layout=Buildr::Layout::PluginLayout.new(project_id)
+        @layout = Buildr4Eclipse::PluginLayout.new(project_id)
       end
 
   end

@@ -54,7 +54,7 @@ end
 
 Then /the plugin should be packaged as a plugin jar/ do
   @plugin_project.package.invoke
-  files = FileList.new("#{File.expand_path @plugin_project.target}/#{@plugin_project.project_id}*.jar")
+  files = FileList.new("#{File.expand_path @plugin_project.base_dir}/#{@plugin_project.target}/#{@plugin_project.project_id}*.jar")
   files.should_not be_empty
   File.exists?(files.first).should be_true
 end
