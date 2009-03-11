@@ -9,6 +9,8 @@
 #     Buildr4Eclipse - initial API and implementation
 ###############################################################################
 
+require File.join(File.dirname(__FILE__), "step_helpers.rb")
+
 Given /a project that should act as a plugin/ do
   @plugin_project = define('foo') do |project|
     act_as_eclipse_plugin

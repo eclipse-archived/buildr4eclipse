@@ -9,7 +9,7 @@
 #     Buildr4Eclipse - initial API and implementation
 ###############################################################################
           
-
+require File.join(File.dirname(__FILE__), "step_helpers.rb")
 
 Given /a project identified as a site, packaging plugins or features/ do
   pending()

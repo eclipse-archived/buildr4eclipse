@@ -9,30 +9,7 @@
 #     Buildr4Eclipse - initial API and implementation
 ###############################################################################
 
-# Point to the buildr source to run with Buildr's source. 
-
-require 'ruby-debug'
-Debugger.start
-
-$LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), '../../lib'))
-
-require File.join(File.dirname(__FILE__), "/../../buildr/spec/spec_helpers.rb")
-require 'buildr4eclipse'
-
-World do |world|
-  world.extend(Buildr)
-  world.extend(SpecHelpers)
-  world.extend(Sandbox)
-end
-
-Before do
-  sandbox
-  @custom_layout = Layout.new
-end
-
-After do
-  reset
-end
+require File.join(File.dirname(__FILE__), "step_helpers.rb")
 
 Then /the compiler should contain pde/ do
   Compiler.has?(:pdec).should be_true
