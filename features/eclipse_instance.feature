@@ -13,9 +13,18 @@ Feature: The Eclipse instance repository
 
 Scenario: Buildr4eclipse should define a special type of local repository bound to an Eclipse instance
      Given a Buildfile that mentions a special Eclipse repository
-     Then it should be associated with the other repositories for artifact resolution
-     
+     When an artifact has a special group identifier, say "__eclipse"
+     Then the artifact should be located in the Eclipse instance repositories
+
 Scenario: Buildr4eclipse should define a task to store the local metadata of the Eclipse instance repository
-     Given a Buildfile that is bound to an Eclipse instance repository
-     When the user asks for it by calling "buildr eclipse:repos"
-     Then Buildr should give the ability to compute the data from this repository in a file named .repo_metadata at the root of the Eclipse instance
+	 Given a Buildfile that mentions a special Eclipse repository
+	 When the user asks for it by calling "buildr eclipse:repos"
+	 Then Buildr should compute the data from this repository in a file named eclipse_metadata.yaml in the Buildr home directory
+	
+Scenario: Buildr4eclipse should offer to find artifacts matching a version range
+     Given a Buildfile that mentions a special Eclipse repository
+     And an artifact that version is actually a range, for example [1.0.0, 2.0.0) 
+     When a project tries to resolve that artifact as a dependency to compile against it
+     Then it should be possible for the registered eclipse instances to compute a list of the plugins matching that version range
+     And they should apply a strategy to select the appropriate artifact
+
