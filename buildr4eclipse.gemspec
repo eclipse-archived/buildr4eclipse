@@ -20,8 +20,7 @@ spec = Gem::Specification.new do |s|
   s.summary = "A Plugin Buildr for Eclipse that Doesn't Suck"
   s.files = Dir["bin/**/*", "lib/**/*", "tasks/**/*", "test/**/*", "spec/**/*", "features/**/*", "README", "ChangeLog", "LICENSE"]
   s.require_path = "lib"
-  s.autorequire = "rake"
-  s.test_files = FileList["{test}/**/*test.rb"].to_a
+  s.test_files = Dir["{test}/**/*test.rb"]
   s.has_rdoc = true
   s.extra_rdoc_files = ["README", "ChangeLog", "LICENSE"]
   
