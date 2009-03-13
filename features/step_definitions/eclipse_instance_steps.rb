@@ -25,8 +25,13 @@ Then /the artifact should be located in the Eclipse instance repositories/ do
   p.match(Dir.pwd + "/eclipse").should_not be_nil
 end
 
-When /the user asks for it by calling "buildr eclipse:repos"/ do
-  @task = task("eclipse:repos")
+When /the user types "buildr ([A-z|\:]*)"/ do |taskName|
+  @task = task(taskName)
+end
+
+When /the user types "buildr (.*) (.*)"/ do |taskName, args|
+  @task = task(taskName)
+  @tasks.args = args
 end
    
 Then /Buildr should compute the data from this repository in a file named (.*) in the Buildr home directory/ do |config_file|
@@ -36,7 +41,7 @@ Then /Buildr should compute the data from this repository in a file named (.*) i
   (File.exists? File.join(Buildr.application.home_dir, config_file)).should be_true
 end
 
-Given /an artifact that version is actually a range, for example (.*)/ do |range|
+Given /a project depends over an artifact by specifying its version through a range, for example (.*)/ do |range|
   pending
 end
 
@@ -52,5 +57,35 @@ Then /^they should apply a strategy to select the appropriate artifact$/ do
   pending
 end
      
+Given /^a project identified as a plugin with plugin dependencies, with at least one Eclipse instance registered$/ do
+pending
+end
 
+Then /^the dependencies of the project should be listed in a file named dependencies\.rb next to the buildfile$/ do
+pending
+end
+
+Then /^that file should contain a yaml description of the dependencies, organized by subproject$/ do
+pending
+end
+
+Then /^the artifacts the project depends on, ie the jar files or a jar'ed version of the directories should be copied to the local maven repository$/ do
+pending
+end
+
+Then /^they should all use the group id "eclipse"$/ do
+pending
+end
+
+Then /^the artifacts the project depends on, ie the jar files or a jar'ed version of the directories present in the local repository should be uploaded to http:\/\/www\.example\.com\/maven$/ do
+pending
+end
+
+Then /^the missing plugin dependencies in the Eclipse instance should be copied to the dropins folder$/ do
+pending
+end
+
+Then /^the \.classpath and \.project files should be generated for the project$/ do
+pending
+end
      
