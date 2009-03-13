@@ -16,15 +16,6 @@ Given /a Buildfile that mentions a special Eclipse repository/ do
   repositories.eclipse_instance = Dir.pwd + "/eclipse"
 end
 
-When /an artifact has a special group identifier, say "(.*)"/ do |groupId|
-  @artifact = "#{groupId}:org.something:jar:1.0.0.M456"
-end
-   
-Then /the artifact should be located in the Eclipse instance repositories/ do
-  p = repositories.locate(@artifact)
-  p.match(Dir.pwd + "/eclipse").should_not be_nil
-end
-
 When /the user types "buildr ([A-z|\:]*)"/ do |taskName|
   @task = task(taskName)
 end
