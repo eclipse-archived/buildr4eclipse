@@ -34,3 +34,27 @@ When /I define a custom layout for '(.*)' and '(.*)'/ do |src, test|
   @custom_layout[:source, :main, :java] = src
   @custom_layout[:source, :test, :java] = test
 end
+
+Given /^a plugin that exports some of its packages using the Export\-Package entry in its manifest$/ do
+  pending
+end
+
+Given /^a second project that depends on a class that is present in a non\-exported package$/ do
+  pending
+end
+
+When /^the compiler attempts to compile that second project$/ do
+  pending
+end
+
+Then /^the compiler should issue a warning by default\.$/ do
+  pending
+end
+
+When /^the option \(\?\) is set to the level of error$/ do
+  pending
+end
+
+Then /^the project compilation should fail because of the error reported on the dependency over a non\-exported package$/ do
+  pending
+end

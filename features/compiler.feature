@@ -23,3 +23,15 @@ Feature: The PDE compiler
     And a source file 'testing/com/example/Test.java' containing source 'package com.example; class Test {}' 
     When I define a custom layout for 'src' and 'testing'
     Then the compiler with custom layout should be identified as pde
+
+  Scenario: The compiler should compile according to the Export-Package entries in the plugin
+    Given a plugin that exports some of its packages using the Export-Package entry in its manifest
+    And a second project that depends on a class that is present in a non-exported package
+    When the compiler attempts to compile that second project
+    Then the compiler should issue a warning by default.
+
+  Scenario: The compiler should be configurable by users
+    Given a plugin that exports some of its packages using the Export-Package entry in its manifest
+    And a second project that depends on a class that is present in a non-exported package
+    When the option (?) is set to the level of error
+    Then the project compilation should fail because of the error reported on the dependency over a non-exported package
