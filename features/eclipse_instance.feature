@@ -11,6 +11,12 @@
 
 Feature: The Eclipse instance repository
 
+Scenario: The user should be able to specify that he is using one or more Eclipse instances
+  Given a project identified as an Eclipse project
+  When the user uses an environment variable named BUILDR_ECLIPSE
+  When the user defines Eclipse instances in his buildr settings under the key eclipse_instances
+  Then Buildr4eclipse should be aware of the Eclipse instances defined on the user system
+
 Scenario: Buildr4eclipse should offer a task to resolve the dependencies in a file named dependencies.rb next to the buildfile
    Given a project identified as a plugin with plugin dependencies, with at least one Eclipse instance registered
    When the user types "buildr eclipse:autoresolve:dependencies"
