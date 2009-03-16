@@ -41,6 +41,16 @@ Scenario: Buildr4eclipse should offer a task to upload the project dependencies 
    When the user types "buildr eclipse:autoresolve:maven_upload http://www.example.com/maven"
    Then the artifacts the project depends on, ie the jar files or a jar'ed version of the directories present in the local repository should be uploaded to http://www.example.com/maven
 
+Scenario: Buildr4eclipse should offer a task that finds the dependencies, pushes them to dependencies.rb and the local maven repo, and finally uploads them
+   Given a project identified as a plugin with plugin dependencies, with at least one Eclipse instance registered
+   When the user types "buildr eclipse:autoresolve:all http://www.example.com/maven"
+   Then the dependencies of the project should be listed in a file named dependencies.rb next to the buildfile
+   And that file should contain a yaml description of the dependencies, organized by subproject
+   And the artifacts the project depends on, ie the jar files or a jar'ed version of the directories should be copied to the local maven repository
+   And they should all use the group id "eclipse"
+   And the artifacts the project depends on, ie the jar files or a jar'ed version of the directories present in the local repository should be uploaded to http://www.example.com/maven
+
+
 Scenario: Buildr4eclipse should add the missing plugins to an Eclipse instance for the purpose of developing a plugin through a task
    Given a project identified as a plugin with plugin dependencies, with at least one Eclipse instance registered
    When the user types "buildr eclipse:add_missing_dependencies ~/eclipse"
