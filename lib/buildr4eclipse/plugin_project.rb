@@ -80,7 +80,7 @@ module Buildr4Eclipse #:nodoc:
     end
 
     def determine_artifact_from_manifest(id, version, optional)
-      return @groupId ? @groupId.call(artifactId) : ECLIPSE_GROUP_ID
+      return @groupId ? @groupId.call(artifactId) : Buildr4Eclipse::ECLIPSE_GROUP_ID
     end
     
   end

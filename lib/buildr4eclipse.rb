@@ -10,6 +10,12 @@
 ###############################################################################
 
 require 'buildr'
+
+#Define the constants used throughout the files
+module Buildr4Eclipse
+  # The global groupd id for artifacts part of Eclipse instances
+  ECLIPSE_GROUP_ID = "__eclipse"
+end
 Dir.glob(File.join(File.dirname(__FILE__), "buildr4eclipse", "*.rb")).each do |f|
   require f
 end

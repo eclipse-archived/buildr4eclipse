@@ -9,15 +9,20 @@
 #     Buildr4Eclipse - initial API and implementation
 ###############################################################################
 
+
 # The Eclipse instance is a special kind of repository that is bound to an Eclipse instance.
 # By itself, an Eclipse instance doesn't know what it contains.
 # Since its content may evolve over time, an Eclipse instance may need to recompute its artifacts metadata.
-
 module Buildr4eclipse
   
+  namespace :eclipse do
+    desc "Refreshes or create the metadata information of the Eclipse instances"
+    task :repos do
+      
+    end
+  end
+  
   module EclipseInstance
-    
-    ECLIPSE_GROUP_ID = "__eclipse"
     
     attr_accessor :eclipse_instance
     def eclipse_instance=(instances)
@@ -39,7 +44,7 @@ module Buildr4eclipse
     
     def _locate(spec)
       spec = Artifact.to_hash(spec)
-      if (spec[:group] == ECLIPSE_GROUP_ID)
+      if (spec[:group] == Buildr4Eclipse::ECLIPSE_GROUP_ID)
         return locate_within_eclipse_instances(spec)
       end
       File.join(local, spec[:group].split('.'), spec[:id], spec[:version], Artifact.hash_to_file_name(spec))
