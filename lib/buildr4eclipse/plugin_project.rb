@@ -13,6 +13,41 @@ require "manifest"
 
 module Buildr4Eclipse #:nodoc:
   
+  class VersionRange
+    
+    attr_accessor :min, :max, :min_inclusive, :max_inclusive
+    
+    def self.parse(string)
+      if !string.nil? && (match = string.match /\s*([\[|\(])(.*),(.*)([\]|\)])/)
+        range = VersionRange.new
+        range.min = match[2]
+        range.max = match[3]
+        range.min_inclusive = match[1] == '['
+        range.max_inclusive = match[4] == ']'
+        range
+      else
+        false
+      end
+    end
+    
+    def to_s
+      "#{ min_inclusive ? '[' : '('}#{min},#{max}#{max_inclusive ? ']' : ')'}"
+    end
+    
+  end
+  
+  class OSGiBundle
+    
+    attr_accessor :name, :version, :optional
+    
+    def to_s
+      Buildr::Artifact.to_spec({:group => OSGiBundle.groupId, :id => name, :type => "jar", :version => version})
+    end
+    
+    def self.groupId
+      "eclipse"
+    end
+  end
 
   # A module that to add to the Buildr::Project class
   # Projects with that module include can identify themselves as eclipse projects
@@ -46,12 +81,18 @@ module Buildr4Eclipse #:nodoc:
     attr_accessor :groupId
     
     # returns an array of the dependencies of the plugin, read from the manifest.
-    def autoresolve(add_optionals = true)
+    def manifest_dependencies()
       return [] unless File.exists?(manifest_file_path)
       manifest = Manifest.read(manifest_file_contents)
       bundles = []
       manifest.first[B_REQUIRE].each_pair {|key, value| 
-        bundle = determine_artifact_from_manifest(key, value[B_DEP_VERSION], value[B_RESOLUTION] == "optional")
+        bundle = OSGiBundle.new
+        bundle.name = key
+        # Either a range or a version: we find out by trying to parse
+        bundle.version = VersionRange.parse(value[B_DEP_VERSION])
+        # If the parsing returned false, we initialize with the string
+        bundle.version ||= value[B_DEP_VERSION]
+        bundle.optional = value[B_RESOLUTION] == "optional"
         bundles << bundle
       } unless manifest.first[B_REQUIRE].nil?
       bundles
@@ -77,10 +118,6 @@ module Buildr4Eclipse #:nodoc:
       else
         ""
       end
-    end
-
-    def determine_artifact_from_manifest(id, version, optional)
-      return @groupId ? @groupId.call(artifactId) : Buildr4Eclipse::ECLIPSE_GROUP_ID
     end
     
   end

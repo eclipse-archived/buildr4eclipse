@@ -9,7 +9,7 @@
 #     Buildr4Eclipse - initial API and implementation
 ###############################################################################
 
-require File.join(File.dirname(__FILE__), "step_helpers.rb")
+require File.join(File.dirname(__FILE__), "use_cases.rb")
 
 Then /the compiler should contain pde/ do
   Compiler.has?(:pdec).should be_true

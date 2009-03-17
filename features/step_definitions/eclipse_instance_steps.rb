@@ -9,27 +9,18 @@
 #     Buildr4Eclipse - initial API and implementation
 ###############################################################################
 
-require File.join(File.dirname(__FILE__), "step_helpers.rb")
+require File.join(File.dirname(__FILE__), "use_cases.rb")
 
-Given /a Buildfile that mentions a special Eclipse repository/ do
-  Buildr::write(Dir.pwd + "/eclipse/plugins/org.something_1.0.0.M456.jar")
-  repositories.eclipse_instance = Dir.pwd + "/eclipse"
+When /the user uses an environment variable named (.*) to point to one or more Eclipse instances/ do |var|
+  ENV[var] = $eclipse_instances.join(";")
 end
 
-When /the user types "buildr ([A-z|\:]*)"/ do |taskName|
-  @task = task(taskName)
+When /the user defines Eclipse instances in his buildr settings under the key (.*)/ do |settings_key|
+  Buildr::write 'home/.buildr/settings.yaml', {"eclipse" => { "instances" => $eclipse_instances}}.to_yaml
 end
 
-When /the user types "buildr (.*) (.*)"/ do |taskName, args|
-  @task = task(taskName)
-  @tasks.args = args
-end
-   
-Then /Buildr should compute the data from this repository in a file named (.*) in the Buildr home directory/ do |config_file|
-  pending
-  @task.invoke
-  p File.join(Buildr.application.home_dir, config_file)
-  (File.exists? File.join(Buildr.application.home_dir, config_file)).should be_true
+Then /Buildr4eclipse should be aware of the Eclipse instances defined on the user system/ do
+  Buildr.eclipse_instances.should == $eclipse_instances
 end
 
 Given /a project depends over an artifact by specifying its version through a range, for example (.*)/ do |range|
@@ -47,17 +38,17 @@ end
 Then /^they should apply a strategy to select the appropriate artifact$/ do
   pending
 end
-     
-Given /^a project identified as a plugin with plugin dependencies, with at least one Eclipse instance registered$/ do
-pending
+
+Then /^the dependencies of the project should be listed in a file named (.*) next to the buildfile$/ do |file|
+  @task.invoke
+  (File.exists? File.join(@project.base_dir, file)).should be_true
 end
 
-Then /^the dependencies of the project should be listed in a file named dependencies\.rb next to the buildfile$/ do
-pending
-end
-
-Then /^that file should contain a yaml description of the dependencies, organized by subproject$/ do
-pending
+Then /^(.*) should contain a yaml description of the dependencies, organized by subproject$/ do |file|
+  require 'yaml'
+  deps = YAML.load_file(File.join(@project.base_dir, file))
+  deps["foo"].should == @foo_dependencies
+  deps["foo:bar"].should == @foo_bar_dependencies
 end
 
 Then /^the artifacts the project depends on, ie the jar files or a jar'ed version of the directories should be copied to the local maven repository$/ do

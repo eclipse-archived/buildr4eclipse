@@ -9,14 +9,7 @@
 #     Buildr4Eclipse - initial API and implementation
 ###############################################################################
 
-require File.join(File.dirname(__FILE__), "step_helpers.rb")
-
-Given /a project that should act as a feature/ do
-  @p = define('foo') do |project|
-    act_as_eclipse_feature
-  end
-  @pNotFeature = define('bar')
-end
+require File.join(File.dirname(__FILE__), "use_cases.rb")
   
 Then /Buildr4eclipse should add a set of attributes and methods to help package the feature/ do
   (@p.public_methods.include? "feature_xml").should be_true

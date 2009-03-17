@@ -9,42 +9,17 @@
 #     Buildr4Eclipse - initial API and implementation
 ###############################################################################
 
-require File.join(File.dirname(__FILE__), "step_helpers.rb")
-
-Given /a project that should act as a plugin/ do
-  @plugin_project = define('foo') do |project|
-    act_as_eclipse_plugin
-  end
-  @pNotPlugin = define('bar')
-end
-
-Given /a plugin '(.*)' with some dependencies '(.*)'/ do |plugin_id, dependencies|
-  manifest = <<-MANIFEST
-Bundle-SymbolicName: #{plugin_id}; singleton:=true
-Require-Bundle: #{dependencies}
-MANIFEST
-  Buildr::write "#{plugin_id}/META-INF/MANIFEST.MF", manifest
-  @plugin_project = define(plugin_id) do |project|
-    act_as_eclipse_plugin
-  end
-end
+require File.join(File.dirname(__FILE__), "use_cases.rb")
 
 Then /Buildr4eclipse should add a set of attributes and methods to help package the plugin/ do
-  (@plugin_project.public_methods.include? "autoresolve").should be_true
-  (@plugin_project.public_methods.include? "project_id").should be_true
-  (@pNotPlugin.public_methods.include? "autoresolve").should be_false
+  (@project.respond_to? :manifest_dependencies).should be_true
+  (@project.respond_to? :project_id).should be_true
+  (@pNotPlugin.respond_to? :manifest_dependencies).should be_false
   # Also check if you can call the method right after the act_as_eclipse_feature method call.
   define('com.foo.bar') do |p|
     act_as_eclipse_plugin
-    lambda {p.autoresolve()}.should_not raise_error
-    lambda {p.project_id()}.should_not raise_error
-  end
-end
-
-Given /the plugin with id '(.*)'/ do |plugin_id|
-  cp_r "../../test-plugins/#{plugin_id}", Dir.pwd
-  @plugin_project = define(plugin_id, :base_dir => File.join(Dir.pwd, plugin_id)) do |project|
-    act_as_eclipse_plugin
+    lambda {p.manifest_dependencies }.should_not raise_error
+    lambda {p.project_id }.should_not raise_error
   end
 end
 
@@ -60,35 +35,21 @@ Then /the plugin should be packaged as a plugin jar/ do
 end
 
 Then /^the layout should be of type '(.*)'$/ do |layout_type|
-  @plugin_project.layout.class.to_s.eql?(layout_type).should be_true
+  @project.layout.class.to_s.eql?(layout_type).should be_true
 end
 
 
 Then /the compiler should be able to guess dependencies '(.*)' by looking at the manifest/ do |dependencies|
-  pending
-  @plugin_project.resolving_strategy = lambda {}
-  bundles = @plugin_project.autoresolve
+  bundles = @plugin_project.manifest_dependencies
 
   dependencies.split(/\s*,\s*/).each do |dependency|
-    (bundles.include? "myEclipseGroup:#{dependency}:").should be_true
+    foundIt = false
+    bundles.each do |b|
+      if (dependency == b.name)
+        foundIt = true
+        break
+      end
+    end
+    foundIt.should be_true
   end
-end
-
-
-Given /^a plugin project$/ do
-end
-
-When /^an Eclipse instance is defined$/ do
-end
-
-Then /^the project should be able to associate with it$/ do
-end
-
-Given /^a plugin with some dependencies$/ do
-end
-
-When /^the plugin is asked to compile by auto\-resolving its dependencies$/ do
-end
-
-Then /^it should be able to find all its dependencies and match them to actual artifacts$/ do
 end
