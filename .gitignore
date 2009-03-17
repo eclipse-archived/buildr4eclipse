@@ -3,3 +3,5 @@ src/
 _reports/
 failed
 .DS_Store
+website/coverage/
+website/features.html
