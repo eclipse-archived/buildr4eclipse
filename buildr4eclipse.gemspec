@@ -31,6 +31,7 @@ spec = Gem::Specification.new do |s|
     
   # development time dependencies
   s.add_development_dependency "cucumber"
+  s.add_development_dependency "spicycode-rcov"
   s.add_development_dependency "ruby-debug"
   s.add_development_dependency 'rspec',                '1.1.12'
 end
