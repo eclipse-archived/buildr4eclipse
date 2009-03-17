@@ -13,7 +13,11 @@
 begin
   require 'cucumber/rake/task'
   desc "Run the features under features"
-  Cucumber::Rake::Task.new
+  Cucumber::Rake::Task.new(:features) do |t|
+    t.cucumber_opts = "--format pretty" 
+    t.rcov = true
+  end
+
 rescue LoadError
   puts "Cucumber required. Please run 'rake setup' first"
 end
