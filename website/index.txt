@@ -14,17 +14,23 @@ h2. The basics
 
 You should use the plugin in your Buildr buildfile.
 
-h2. Demonstration of usage
-
 In your buildfile, do:
 
 <pre syntax="ruby">
 require "buildr4eclipse"
 
 define 'foo' do
-  compile.using(:pdec)
+  act_as_eclipse_plugin
 end
 </pre>
+
+h2. Features
+
+"Features created by Cucumber":features.html
+
+h2. Code coverage
+
+"Code coverage statistics by rcov":coverage/index.html
 
 h2. Forum
 
@@ -36,28 +42,13 @@ Read the "8 steps for fixing other people's code":http://drnicwilliams.com/2007/
 
 You can fetch the source from either:
 
-<% if rubyforge_project_id %>
-
-* rubyforge: "http://rubyforge.org/scm/?group_id=<%= rubyforge_project_id %>":http://rubyforge.org/scm/?group_id=<%= rubyforge_project_id %>
+* rubyforge: "http://rubyforge.org/scm/?group_id=7573":http://rubyforge.org/scm/?group_id=7573
 
 <pre>git clone git://rubyforge.org/buildr4eclipse.git</pre>
 
-<% else %>
+* github: "http://github.com/eclipse/buildr4eclipse/tree/master":http://github.com/eclipse/buildr4eclipse/tree/master
 
-* rubyforge: MISSING IN ACTION
-
-TODO - You can not created a RubyForge project, OR have not run <code>rubyforge config</code>
-yet to refresh your local rubyforge data with this projects' id information.
-
-When you do this, this message will magically disappear!
-
-Or you can hack website/index.txt and make it all go away!!
-
-<% end %>
-
-* github: "http://github.com/ketan/buildr4eclipse/tree/master":http://github.com/ketan/buildr4eclipse/tree/master
-
-<pre>git clone git://github.com/ketan/buildr4eclipse.git</pre>
+<pre>git clone git://github.com/eclipse/buildr4eclipse.git</pre>
 
 h3. Build and test instructions
 
