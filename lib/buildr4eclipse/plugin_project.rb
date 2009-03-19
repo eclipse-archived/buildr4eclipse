@@ -9,46 +9,11 @@
 #     Buildr4Eclipse - initial API and implementation
 ###############################################################################
 
+
 require "manifest"
+require File.join(File.dirname(__FILE__), "osgi/osgi_bundle")
 
 module Buildr4Eclipse #:nodoc:
-  
-  class VersionRange
-    
-    attr_accessor :min, :max, :min_inclusive, :max_inclusive
-    
-    def self.parse(string)
-      if !string.nil? && (match = string.match /\s*([\[|\(])(.*),(.*)([\]|\)])/)
-        range = VersionRange.new
-        range.min = match[2]
-        range.max = match[3]
-        range.min_inclusive = match[1] == '['
-        range.max_inclusive = match[4] == ']'
-        range
-      else
-        false
-      end
-    end
-    
-    def to_s
-      "#{ min_inclusive ? '[' : '('}#{min},#{max}#{max_inclusive ? ']' : ')'}"
-    end
-    
-  end
-  
-  class OSGiBundle
-    
-    attr_accessor :name, :version, :optional
-    
-    def to_s
-      Buildr::Artifact.to_spec({:group => OSGiBundle.groupId, :id => name, :type => "jar", :version => version})
-    end
-    
-    def self.groupId
-      "eclipse"
-    end
-  end
-
   # A module that to add to the Buildr::Project class
   # Projects with that module include can identify themselves as eclipse projects
   module EclipseProject
@@ -86,13 +51,8 @@ module Buildr4Eclipse #:nodoc:
       manifest = Manifest.read(manifest_file_contents)
       bundles = []
       manifest.first[B_REQUIRE].each_pair {|key, value| 
-        bundle = OSGiBundle.new
-        bundle.name = key
-        # Either a range or a version: we find out by trying to parse
-        bundle.version = VersionRange.parse(value[B_DEP_VERSION])
-        # If the parsing returned false, we initialize with the string
-        bundle.version ||= value[B_DEP_VERSION]
-        bundle.optional = value[B_RESOLUTION] == "optional"
+        bundle = Buildr4Eclipse::OSGiBundle.from_spec({:name => key, :version => value[B_DEP_VERSION], 
+          :optional => value[B_RESOLUTION] == "optional"})
         bundles << bundle
       } unless manifest.first[B_REQUIRE].nil?
       bundles

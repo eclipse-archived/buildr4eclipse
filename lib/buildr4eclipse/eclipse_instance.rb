@@ -9,7 +9,7 @@
 #     Buildr4Eclipse - initial API and implementation
 ###############################################################################
 
-
+gem "rprov"
 # The Eclipse instance is a special kind of repository that is bound to an Eclipse instance.
 # By itself, an Eclipse instance doesn't know what it contains.
 # Since its content may evolve over time, an Eclipse instance may need to recompute its artifacts metadata.
@@ -48,11 +48,13 @@ module Buildr4Eclipse
       def resolved_instances
         unless @resolved_instances
           @resolved_instances = instances.collect { |instance|
-            Rprov::EclipseInstance.new(instance) 
+            Rprov::EclipseInstance.new(instance, ["dropins", "plugins"], false) 
           }
         end
         @resolved_instances
       end
+      
+      attr_accessor :resolving_strategy
     end
   end
 
@@ -99,19 +101,53 @@ module Buildr4Eclipse
       task('eclipse:resolve:dependencies').enhance &block
     end
   end
+  
+  module ResolvingStrategies
+    def latest(bundles)
+      bundles.sort {|a, b| a.version <=> b.version}.last
+    end
+    
+    def oldest(bundles)
+      bundles.sort {|a, b| a.version <=> b.version}.first
+    end
+    
+    def prompt(bundles)
+      bundle = nil
+      while (!bundle)
+        puts "Choose a bundle amongst those presented:\n" + bundles.sort {|a, b| a.version <=> b.version }.
+              collect {|b| "\t#{bundles.index(b) +1}. #{b.name} #{b.version}"}.join("\n")
+        number = gets.chomp
+        begin
+          number = number.to_i
+          number -= 1
+          bundle = bundles[number]
+        rescue Exception => e
+          puts "Invalid index"
+          #do nothing
+        end
+        
+      end
+      bundle
+    end
+    
+    module_function :latest, :oldest, :prompt
+  end
 end
+
 
 # Hook into Buildr and add the eclipse_instances method
 module Buildr
   # :call-seq:
-  #    eclipse_instances => EclipseInstances.instance.instances
+  #    eclipse => EclipseInstances.instance
   #
-  # Returns the list of Eclipse instances
+  # Returns the object managing the Eclipse instances and the resolving strategy
   #
   # See EclipseInstances.
-  def eclipse_instances
-    Buildr4Eclipse::EclipseInstance::Instance.instance.instances
+  def eclipse
+    Buildr4Eclipse::EclipseInstance::Instance.instance
   end
+  
+  
   
   class Project
     include Buildr4Eclipse::EclipseDependencies
