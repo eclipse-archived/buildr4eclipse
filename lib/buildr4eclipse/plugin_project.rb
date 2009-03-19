@@ -51,8 +51,8 @@ module Buildr4Eclipse #:nodoc:
       manifest = Manifest.read(manifest_file_contents)
       bundles = []
       manifest.first[B_REQUIRE].each_pair {|key, value| 
-        bundle = Buildr4Eclipse::OSGiBundle.from_spec({:name => key, :version => value[B_DEP_VERSION], 
-          :optional => value[B_RESOLUTION] == "optional"})
+        bundle = Buildr4Eclipse::OSGiBundle.new(key, value[B_DEP_VERSION])
+        bundle.optional = value[B_RESOLUTION] == "optional"
         bundles << bundle
       } unless manifest.first[B_REQUIRE].nil?
       bundles

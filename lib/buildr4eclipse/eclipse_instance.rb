@@ -9,14 +9,16 @@
 #     Buildr4Eclipse - initial API and implementation
 ###############################################################################
 
-gem "rprov"
+
+require File.join(File.dirname(__FILE__), "osgi/osgi_registry")
+
 # The Eclipse instance is a special kind of repository that is bound to an Eclipse instance.
 # By itself, an Eclipse instance doesn't know what it contains.
 # Since its content may evolve over time, an Eclipse instance may need to recompute its artifacts metadata.
 module Buildr4Eclipse
   
   module EclipseInstance
-  
+    
     # EclipseInstances
     #
     # A class available as a singleton on the Buildr object
@@ -24,6 +26,7 @@ module Buildr4Eclipse
     #
     class Instance
       include Singleton
+
     
       # instances
       #
@@ -47,8 +50,9 @@ module Buildr4Eclipse
       # 
       def resolved_instances
         unless @resolved_instances
+          
           @resolved_instances = instances.collect { |instance|
-            Rprov::EclipseInstance.new(instance, ["dropins", "plugins"], false) 
+            OSGiRegistry.new(instance) 
           }
         end
         @resolved_instances
