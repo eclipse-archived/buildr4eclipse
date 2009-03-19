@@ -118,13 +118,13 @@ module Buildr4Eclipse
     def prompt(bundles)
       bundle = nil
       while (!bundle)
-        puts "Choose a bundle amongst those presented:\n" + bundles.sort {|a, b| a.version <=> b.version }.
+        puts "Choose a bundle amongst those presented:\n" + bundles.sort! {|a, b| a.version <=> b.version }.
               collect {|b| "\t#{bundles.index(b) +1}. #{b.name} #{b.version}"}.join("\n")
         number = gets.chomp
         begin
           number = number.to_i
           number -= 1
-          bundle = bundles[number]
+          bundle = bundles[number] if number >= 0 # no negative indexing here.
         rescue Exception => e
           puts "Invalid index"
           #do nothing

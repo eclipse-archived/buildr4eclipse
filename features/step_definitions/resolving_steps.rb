@@ -61,7 +61,8 @@ Then /^they should apply a strategy to select the appropriate artifact: :latest,
   eclipse.resolving_strategy.should == :prompt
   @deps_w_resolved_artifacts.each_pair {|key, resolved_bundles| 
     if key.name == "org.eclipse.ui"
-      gets "1" #prepare the user input
+      
+      Buildr4Eclipse::ResolvingStrategies.should_receive(:gets).and_return("1\n")
       lambda {resolved = key.resolve!(resolved_bundles)
         resolved.version.should == "3.4.2.R_20090226"
       }.should show(["Choose a bundle amongst those presented:\n\t1. org.eclipse.ui 3.4.2.R_20090226\n\t2. org.eclipse.ui 3.5.0.M_20090107"])
