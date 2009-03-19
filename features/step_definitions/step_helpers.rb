@@ -28,6 +28,18 @@ unless defined?(SpecHelpers)
 
   require File.join(File.dirname(__FILE__), "/../../buildr/spec/spec_helpers.rb")
 
+  module FakeGets
+    
+    def gets(*args)
+      if $_gets_message
+        m = $_gets_message
+        $_gets_message = nil
+        return m
+      else
+        $_gets_message = args.join(" ") + "\n"
+      end
+    end
+  end
   Cucumber::Broadcaster.class_eval do
     alias :puts :safe_puts
   end
@@ -35,9 +47,14 @@ unless defined?(SpecHelpers)
   require 'buildr4eclipse'
 
   World do |world|
+    world.extend(FakeGets)
     world.extend(Buildr)
     world.extend(SpecHelpers)
     world.extend(Sandbox)
+  end
+  
+  module Buildr4Eclipse::ResolvingStrategies
+    extend FakeGets
   end
 
   Before do

@@ -37,19 +37,3 @@ end
 Then /^the layout should be of type '(.*)'$/ do |layout_type|
   @project.layout.class.to_s.eql?(layout_type).should be_true
 end
-
-
-Then /the compiler should be able to guess dependencies '(.*)' by looking at the manifest/ do |dependencies|
-  bundles = @plugin_project.manifest_dependencies
-
-  dependencies.split(/\s*,\s*/).each do |dependency|
-    foundIt = false
-    bundles.each do |b|
-      if (dependency == b.name)
-        foundIt = true
-        break
-      end
-    end
-    foundIt.should be_true
-  end
-end

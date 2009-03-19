@@ -14,8 +14,6 @@ unless defined?(SpecHelpers)
 
   # Defining use cases here so they can be reused throughout the steps
 
-  $eclipse_instances = [File.join(Dir.pwd, "eclipse1"), File.join(Dir.pwd, "eclipse2")]
-
   Given /^a project identified as a plugin/ do
     @foo_dependencies = ["#{Buildr4Eclipse::ECLIPSE_GROUP_ID}:org.eclipse.core.resources:jar", 
                        "#{Buildr4Eclipse::ECLIPSE_GROUP_ID}:com.ibm.icu:jar"]
@@ -77,30 +75,38 @@ MANIFEST
   end
 
   Given /the user defined one or more Eclipse instances/ do
-    ENV['BUILDR_ECLIPSE'] = $eclipse_instances.join(";")
-    Buildr::write File.join(File.join(Dir.pwd, "eclipse1"), "plugins/com.ibm.icu-3.9.9.R_20081204/META-INF/MANIFEST.MF"), <<-MANIFEST
+    @eclipse_instances = [File.join(Dir.pwd, "eclipse1"), File.join(Dir.pwd, "eclipse2")]
+    ENV['BUILDR_ECLIPSE'] = @eclipse_instances.join(";")
+    Buildr::write File.join("eclipse1", "plugins/com.ibm.icu-3.9.9.R_20081204/META-INF/MANIFEST.MF"), <<-MANIFEST
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: com.ibm.icu; singleton:=true
 Bundle-Version: 3.9.9.R_20081204
 MANIFEST
-    Buildr::write File.join(File.join(Dir.pwd, "eclipse1"), "plugins/org.eclipse.core.resources-3.5.0.R_20090512/META-INF/MANIFEST.MF"), <<-MANIFEST
+    Buildr::write File.join("eclipse1", "plugins/org.eclipse.core.resources-3.5.0.R_20090512/META-INF/MANIFEST.MF"), <<-MANIFEST
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: org.eclipse.core.resources; singleton:=true
 Bundle-Version: 3.5.0.R_20090512
 MANIFEST
-    Buildr::write File.join(File.join(Dir.pwd, "eclipse2"), "plugins/org.eclipse.core.resources-3.5.1.R_20090912/META-INF/MANIFEST.MF"), <<-MANIFEST
+    Buildr::write File.join("eclipse2", "plugins/org.eclipse.core.resources-3.5.1.R_20090912/META-INF/MANIFEST.MF"), <<-MANIFEST
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: org.eclipse.core.resources; singleton:=true
 Bundle-Version: 3.5.1.R_20090912
 MANIFEST
-    Buildr::write File.join(File.join(Dir.pwd, "eclipse2"), "plugins/org.eclipse.ui-3.4.2.R_20090226/META-INF/MANIFEST.MF"), <<-MANIFEST
+    Buildr::write File.join("eclipse2", "plugins/org.eclipse.ui-3.4.2.R_20090226/META-INF/MANIFEST.MF"), <<-MANIFEST
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: org.eclipse.ui; singleton:=true
 Bundle-Version: 3.4.2.R_20090226
+MANIFEST
+  
+    Buildr::write File.join("eclipse2", "plugins/org.eclipse.ui-3.5.0.M_20090107/META-INF/MANIFEST.MF"), <<-MANIFEST
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: org.eclipse.ui; singleton:=true
+Bundle-Version: 3.5.0.M_20090107
 MANIFEST
   end
 
