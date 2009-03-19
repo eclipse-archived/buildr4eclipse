@@ -15,7 +15,6 @@ begin
   desc "Run the features under features"
   Cucumber::Rake::Task.new(:features) do |t|
     t.cucumber_opts = "--format pretty" 
-    t.rcov = true
   end
 
 rescue LoadError
