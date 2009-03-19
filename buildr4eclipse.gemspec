@@ -28,6 +28,7 @@ spec = Gem::Specification.new do |s|
   s.add_dependency("buildr", "= 1.3.4")
   s.add_dependency("jdtc", "= 0.0.1")
   s.add_dependency("manifest", "= 0.0.3")
+  s.add_dependency('rprov', ">= 0.0.3")  
     
   # development time dependencies
   s.add_development_dependency "cucumber"
