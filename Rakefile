@@ -9,6 +9,8 @@
 #     Buildr4Eclipse - initial API and implementation
 ###############################################################################
 
+#Buildr uses 0.8.4.
+raise "You need rake 0.8.4. You have #{RAKEVERSION}" unless RAKEVERSION == '0.8.4'
 require 'rake/gempackagetask'
 
 def spec(platform = RUBY_PLATFORM[/java/] || 'ruby')
